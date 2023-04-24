@@ -1,4 +1,4 @@
-const { TableNames } = require("../utils/utils");
+const { TableNames } = require("../utils/constants");
 const allServices = [
   // To append the tables need to be deleted
 

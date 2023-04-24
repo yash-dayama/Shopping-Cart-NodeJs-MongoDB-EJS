@@ -8,7 +8,7 @@ var categorySchema = mongoose.Schema(
       type: String,
       default: "",
     },
-    [TableFields.shortDescription]: {
+    [TableFields.descriptionCategory]: {
       type: String,
       default: "",
     },

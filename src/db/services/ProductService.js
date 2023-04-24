@@ -3,7 +3,7 @@ const Util = require("../../utils/utils");
 const Product = require("../models/product");
 
 const ProductService = class {
-  static insertRecords = (data) => {
+  static insertRecord = (data) => {
     return new ProjectionBuilder(async function () {
       let product = [];
       try {
@@ -58,6 +58,20 @@ const ProductService = class {
     return result;
   };
 
+  static existRecord = async (req) => {
+    var condition = {
+      [TableFields.title]: {
+        $regex: new RegExp("^" + req.body.title.toLowerCase(), "i"),
+      },
+      [TableFields.question]: req.body.question,
+      [TableFields.deletedAt]: "",
+    };
+    if (req.body.id !== "undefined" && req.body.id != "") {
+      condition[TableFields.ID] = { $ne: req.body.id };
+    }
+    return await Product.countDocuments(condition);
+  };
+
   static deleteMyReferences = async (
     cascadeDeleteMethodReference,
     tableName,
@@ -100,6 +114,53 @@ const ProjectionBuilder = class {
     const projection = {
       populate: {},
     };
+
+    this.withId = () => {
+      projection[TableFields.ID] = 1;
+      return this;
+    };
+
+    this.withBasicInfo = () => {
+      projection[TableFields.title] = 1;
+      projection[TableFields.shortDescription] = 1;
+      projection[TableFields.fullDescription] = 1;
+      return this;
+    };
+
+    this.withStatus = () => {
+      projection[TableFields.status] = 1;
+      return this;
+    };
+
+    this.withAmount = () => {
+      projection[TableFields.amount] = 1;
+      return this;
+    };
+
+    this.withQuantity = () => {
+      projection[TableFields.quantity] = 1;
+      return this;
+    };
+
+    this.withDeleted = () => {
+      projection[TableFields.deletedAt] = 1;
+      return this;
+    };
+
+    this.withImage = () => {
+      projection[TableFields.image] = 1;
+      return this;
+    };
+
+    this.withCategory = () => {
+      // projection[TableFields.category] = 1; // for fetching all categories
+      /* =>🎈 for fetching particular categories 
+      projection[TableFields.category] = "$" + TableFields.category + "." + TableFields.status
+      */
+      projection[TableFields.category] =
+        "$" + TableFields.category + "." + TableFields.title;
+    };
+
     const putInPopulate = (path, selection) => {
       if (projection.populate[path]) {
         let existingRecord = projection.populate[path];
