@@ -59,7 +59,7 @@ var productSchema = mongoose.Schema(
           ref: TableName.Category,
           _id: false,
         },
-        [TableFields.shortDescription]: {
+        [TableFields.descriptionCategory]: {
           type: String,
           default: "",
         },

@@ -2,8 +2,8 @@ const { TableNames, TableFields } = require("../../utils/constants");
 const Util = require("../../utils/utils");
 const Category = require("../models/category");
 
-const categoryService = class {
-  static insertRecords = (data) => {
+const CategoryService = class {
+  static insertRecord = (data) => {
     return new ProjectionBuilder(async function () {
       let category = [];
       try {
@@ -55,31 +55,20 @@ const categoryService = class {
     );
     return result;
   };
-};
 
-const ProjectionBuilder = class {
-  constructor(methodToExecute) {
-    const projection = {
-      populate: {},
+  static existRecord = async (req) => {
+    var condition = {
+      [TableFields.title]: {
+        $regex: new RegExp("^" + req.body.title.toLowerCase(), "i"),
+      },
+      [TableFields.question]: req.body.question,
+      [TableFields.deletedAt]: "",
     };
-    const putInPopulate = (path, selection) => {
-      if (projection.populate[path]) {
-        let existingRecord = projection.populate[path];
-        existingRecord.select += " " + selection;
-        projection.populate[path] = existingRecord;
-      } else {
-        projection.populate[path] = { path: path, select: selection };
-      }
-    };
-    this.execute = async () => {
-      if (Object.keys(projection.populate) == 0) {
-        delete projection.populate;
-      } else {
-        projection.populate = Object.values(projection.populate);
-      }
-      return await methodToExecute.call(projection);
-    };
-  }
+    if (req.body.id !== "undefined" && req.body.id != "") {
+      condition[TableFields.ID] = { $ne: req.body.id };
+    }
+    return await Category.countDocuments(condition);
+  };
 
   static deleteMyReferences = async (
     cascadeDeleteMethodReference,
@@ -117,4 +106,56 @@ const ProjectionBuilder = class {
     }
   };
 };
-module.exports = categoryService;
+
+const ProjectionBuilder = class {
+  constructor(methodToExecute) {
+    const projection = {
+      populate: {},
+    };
+
+    this.withId = () => {
+      projection[TableFields.ID] = 1;
+      return this;
+    };
+
+    this.withBasicInfo = () => {
+      projection[TableFields.title] = 1;
+      projection[TableFields.descriptionCategory] = 1;
+      return this;
+    };
+
+    this.withImage = () => {
+      projection[TableFields.image] = 1;
+      return this;
+    };
+
+    this.withStatus = () => {
+      projection[TableFields.status] = 1;
+      return this;
+    };
+
+    this.withDeleted = () => {
+      projection[TableFields.deletedAt] = 1;
+      return this;
+    };
+
+    const putInPopulate = (path, selection) => {
+      if (projection.populate[path]) {
+        let existingRecord = projection.populate[path];
+        existingRecord.select += " " + selection;
+        projection.populate[path] = existingRecord;
+      } else {
+        projection.populate[path] = { path: path, select: selection };
+      }
+    };
+    this.execute = async () => {
+      if (Object.keys(projection.populate) == 0) {
+        delete projection.populate;
+      } else {
+        projection.populate = Object.values(projection.populate);
+      }
+      return await methodToExecute.call(projection);
+    };
+  }
+};
+module.exports = CategoryService;

@@ -63,7 +63,7 @@ const Gender = {
 module.exports = {
   General,
   TableFields,
-  TableName,
+  TableNames,
   status,
   Gender,
   ApiResponseCode,
