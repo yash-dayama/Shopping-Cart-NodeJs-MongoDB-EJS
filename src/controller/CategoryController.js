@@ -1,7 +1,6 @@
 let CategoryService = require("../db/services/CategoryService");
 const { TableNames } = require("../utils/constants");
 const ServiceManager = require("../db/serviceManager");
-const ProductService = require("../db/services/ProductService");
 
 const index = async function (req, res) {
   try {
