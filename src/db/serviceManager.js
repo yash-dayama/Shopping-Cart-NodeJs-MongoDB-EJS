@@ -3,6 +3,7 @@ const allServices = [
   // To append the tables need to be deleted
 
   [TableNames.Product, require("./services/ProductService").deleteMyReferences],
+  [TableNames.User, require("./services/UserService").deleteMyReferences],
   [
     TableNames.Category,
     require("./services/CategoryService").deleteMyReferences,
