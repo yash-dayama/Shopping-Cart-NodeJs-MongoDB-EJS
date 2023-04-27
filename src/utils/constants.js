@@ -1,6 +1,13 @@
 const General = {
   AdminEmail: "admin@gmail.com",
 };
+const ValidationMsgs = {
+  firstNameEmpty: "First Name required!",
+  lastNameEmpty: "Last Name required!",
+  emailEmpty: "Email required!",
+  birthDateEmpty: "Date Of Birth required!",
+  genderEmpty: "Gender required!",
+};
 
 const TableFields = {
   ID: "_id",
@@ -22,6 +29,17 @@ const TableFields = {
   dateOfBirth: "dateOfBirth",
   gender: "gender",
   deletedAt: "deletedAt",
+  userType: "userType",
+  gender: "gender",
+  password: "password",
+  firstName: "firstName",
+  middleName: "middleName",
+  lastName: "lastName",
+  birthDate: "birthDate",
+  gender: "gender",
+  email: "email",
+  token: "token",
+  passwordResetToken: "passwordResetToken",
 };
 
 const TableNames = {
@@ -68,4 +86,5 @@ module.exports = {
   Gender,
   ApiResponseCode,
   UserTypes,
+  ValidationMsgs,
 };
