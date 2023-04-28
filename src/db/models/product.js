@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-const { TableName, TableFields, status } = require("../../utils/constants");
+const { TableNames, TableFields, status } = require("../../utils/constants");
 
 //define the schema for our product model
 var productSchema = mongoose.Schema(
@@ -99,5 +99,5 @@ var productSchema = mongoose.Schema(
   }
 );
 
-const Product = mongoose.model(TableName.Product, productSchema);
+const Product = mongoose.model(TableNames.Product, productSchema);
 module.exports = Product;

@@ -48,7 +48,7 @@ app.use(passport.session());
 app.use(flash());
 
 //   require("./routes/venueAdminRoute")(app, passport); // uncomment if front web interface
-// require("./routes/adminRoute")(app, passport);
+require("./routes/userRoute")(app, passport);
 // require("./routes/apiRoute")(app);
 
 app.use(function (req, res, next) {

@@ -1,0 +1,94 @@
+.bg-card1 {
+    background-color: #ffe0ee;
+}
+
+.bg-card2 {
+    background-color: #c2f5e9;
+}
+
+.bg-card3 {
+    background-color: #d0f0fd;
+}
+
+.bg-card4 {
+    background-color: #ede2fe;
+}
+
+.bg-card5 {
+    background-color: #fee2d5;
+}
+
+.swal-footer {
+    text-align: left;
+    padding: 15px 25px 30px;
+}
+
+.swal-modal {
+    max-width: 515px;
+}
+
+.swal-title {
+    line-height: 1.5;
+    font-weight: 700;
+    margin-top: 0;
+    font-size: 22px;
+    padding: 0.75rem 1.875rem 0.9375rem;
+    text-align: left;
+}
+
+.swal-text {
+    display: block;
+    padding: 0 30px;
+    font-size: 14px;
+    max-width: 100%;
+    color: #545454;
+}
+
+.swal-button {
+    background-color: #115dc4;
+    color: #fff;
+    border-radius: 5px;
+    font-weight: 600;
+    padding: 0.85rem 1.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 5px;
+}
+
+.swal-button:focus,
+.swal-button:active {
+    box-shadow: none;
+    background: #115dc4;
+}
+
+.swal-button--confirm {
+    color: #fff;
+    background-color: red !important;
+}
+
+.blockUI {
+    color: #115dc4 !important;
+}
+
+.fa-spin {
+    color: #115dc4 !important;
+}
+
+.intl-tel-input {
+    display: table-cell;
+}
+
+.intl-tel-input .selected-flag {
+    z-index: 4;
+}
+
+.intl-tel-input .country-list {
+    z-index: 5;
+}
+
+.input-group .intl-tel-input .form-control {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 0;
+}

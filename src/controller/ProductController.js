@@ -1,10 +1,10 @@
-let ProductService = require("../db/services/ProductService");
+let Product = require("../db/models/product");
 const { TableNames } = require("../utils/constants");
 const ServiceManager = require("../db/serviceManager");
 
 const index = async function (req, res) {
   try {
-    var pro = await ProductService.getAll()
+    var pro = await Product.getAll()
       .withId()
       .withBasicInfo()
       .withAmount()
@@ -29,7 +29,7 @@ const create = async function (req, res) {
 
 const store = async function (req, res) {
   try {
-    var pro_ = await ProductService.insertRecord(req).execute();
+    var pro_ = await Product.insertRecord(req).execute();
     if (pro_) {
       req.flash("success", "Product has been added successfully");
       // res.redirect(prefix + "/Products");
@@ -45,7 +45,7 @@ const store = async function (req, res) {
 
 const edit = async function (req, res) {
   try {
-    var pro = await ProductService.getById(req.params.id).execute();
+    var pro = await Product.getById(req.params.id).execute();
   } catch (error) {
     req.flash("error", "Exception: " + error);
   }
@@ -53,7 +53,7 @@ const edit = async function (req, res) {
 
 const update = async function (req, res) {
   try {
-    await ProductService.updateProductRecord(req.params.id, req);
+    await Product.updateProductRecord(req.params.id, req);
     req.flash("success", "Product has been updated successfully");
   } catch (error) {
     console.log(error);
@@ -76,7 +76,7 @@ const destroy = async function (req, res) {
 
 const exists = async function (req, res) {
   try {
-    var exists = await ProductService.existRecord(req);
+    var exists = await Product.existRecord(req);
 
     if (exists) {
       res.send(false);
