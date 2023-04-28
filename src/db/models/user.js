@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 const {
-  TableName,
+  TableNames,
   TableFields,
   UserTypes,
   ValidationMsgs,
@@ -153,5 +153,5 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-const User = mongoose.model(TableName.User, userSchema);
+const User = mongoose.model(TableNames.User, userSchema);
 module.exports = User;

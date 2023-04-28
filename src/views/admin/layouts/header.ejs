@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    
+        <title> <%- data.page_title %> - <%- process.env.APP_NAME %></title>
+    
+        <link rel="apple-touch-icon" href="<%-assets_url%>assets/images/favicon.png">
+        <link rel="shortcut icon" type="image/x-icon" href="<%-assets_url%>assets/images/favicon.png">
+    
+       
+<link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700" rel="stylesheet" type="text/css">
+    
+        <!-- BEGIN VENDOR CSS-->
+        <link rel="stylesheet" type="text/css" href="<%-assets_url%>assets/css/vendors.css">
+        <!-- END VENDOR CSS-->
+    
+       
+		 <link rel="stylesheet" type="text/css" href="<%-assets_url%>assets/css/bootstrap.min.css">
+		  <link rel="stylesheet" type="text/css" href="<%-assets_url%>assets/css/icons.min.css">
+        <link rel="stylesheet" type="text/css" href="<%-assets_url%>assets/css/loaders/loaders.min.css">
+        <link rel="stylesheet" type="text/css" href="<%-assets_url%>assets/css/app.min.css">
+
+        <link rel="stylesheet" type="text/css" href="<%-assets_url%>assets/css/admin-custom.css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet" type="text/css" />
+    </head>
+	
+    <!-- <% 
+    var body_class = "", column = "2-column",div_class="",div_id="";
+    if(['/admin/login', '/admin/password/request', '/admin/password/reset'].includes(data.url)){
+        body_class = "authentication-bg",column = "1-column",div_class="account-pages my-5",div_id="wrapper";
+    } else if(session.user.userType==0 || session.user.userType == 1){
+        body_class = "", column = "2-columns",div_id="wrapper";
+
+    }
+    %> -->
+
+    <body class="<%-body_class%>" data-open="click" data-menu="vertical-menu" data-col="<%-column%>">
+	<div class="<%-div_class%>" id="<%-div_id%>">
+        <% if(session.user){%>
+        <%- include('./nav') %>
+        <%}%>
+        
+        <% if(session.user){%>
+            <%- include('./sidebar') %>
+        <%}%>
+       
+        
+         
