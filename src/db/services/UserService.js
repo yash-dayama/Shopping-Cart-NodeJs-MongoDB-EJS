@@ -55,11 +55,11 @@ const UserService = class {
     });
   };
 
-  static getUserByEmail = (email, userType) => {
+  static getUserByEmail = (userEmail, userType) => {
     return new ProjectionBuilder(async function () {
       return await User.findOne(
         {
-          email: email,
+          email: userEmail,
           [TableFields.deletedAt]: "",
           [TableFields.userType]: userType,
         },

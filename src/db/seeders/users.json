@@ -1,0 +1,19 @@
+[
+  {
+    "_id": {
+      "$oid": "61bc85e6167bf12048e8fceb"
+    },
+    "name": "Admin",
+    "email": "admin@shoppingcart.com",
+    "password": "$2a$08$4nTi2KaXLWovHVbsTLA5EeAc7GdsBTFfpJpc5fo9NUjUh7pCka9hm",
+    "isActive": 1,
+    "passwordResetToken": "$2a$08$nCGDoj7HijujEmGlcSgbQuyjcJ76Al8dUAzezb9/Iig/iWzMrAXF.",
+    "createdAt": "2021-12-17 18:13:19",
+    "updatedAt": {
+      "$date": "2022-01-01T06:37:53Z"
+    },
+    "deletedAt": "",
+    "userType": 1,
+    "__v": 0
+  }
+]

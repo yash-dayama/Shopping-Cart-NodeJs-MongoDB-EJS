@@ -1,6 +1,6 @@
 var LocalStrategy = require("passport-local").Strategy;
 const utils = require("../utils/utils");
-
+const UserServices = require("../db/services/UserService");
 const { UserTypes, TableFields } = require("../utils/constants");
 
 // -> user model import
@@ -13,11 +13,19 @@ module.exports = function (passport) {
     done(null, user);
   });
 
-  passport.deserializeUser(function (id, done) {
-    // User is the User model needed to make
+  /*passport.deserializeUser(function (id, done) {
     User.findById(id, function (err, user) {
       done(err, user);
     });
+  });*/
+  passport.deserializeUser(function (id, done) {
+    User.findById(id)
+      .then(user => {
+        done(null, user);
+      })
+      .catch(err => {
+        done(err, null);
+      });
   });
 
   /* User Login */
@@ -32,13 +40,15 @@ module.exports = function (passport) {
       async function (req, email, password, done) {
         // callback with email and password in form
         /*UserServices ko define karna baki haii & getUserByEmail */
-        let user = await UserServices.getUserByEmail(email, UserTypes.Register);
-        //     .withEmail()
-        //   .withPassword()
-        //   .withUserType()
-        //   .withName()
-        //   .execute();
+        let user = await UserServices.getUserByEmail(email, UserTypes.Admin)
+          .withEmail()
+          .withPassword()
+          .withUserType()
+          // .withName()
+          .execute();
+          console.log(user);
         if (!user)
+        console.log(user);
           return done(
             null,
             false,
