@@ -18,6 +18,8 @@ app.use(
 ); // To parse application/json
 app.use(express.json({ limit: "5gb" }));
 
+require("./routes/passport")(passport);
+
 app.use(express.static(path.join(__dirname, "./public")));
 app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
 app.set("views", path.join(__dirname, "./views"));
@@ -33,6 +35,10 @@ app.use(
     }),
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
 
 app.locals = {
   base_url: Util.getBaseURL(),
@@ -43,9 +49,6 @@ app.locals = {
   //   moment: require("moment"),
 };
 
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
 
 //   require("./routes/venueAdminRoute")(app, passport); // uncomment if front web interface
 require("./routes/userRoute")(app, passport);
