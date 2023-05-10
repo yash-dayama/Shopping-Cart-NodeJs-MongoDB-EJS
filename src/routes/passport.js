@@ -46,7 +46,7 @@ module.exports = function (passport) {
           .withUserType()
           // .withName()
           .execute();
-          console.log(user);
+          // console.log(user);
         if (!user)
           return done(
             null,

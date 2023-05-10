@@ -4,7 +4,6 @@ var bcrypt = require("bcryptjs");
 let prefix = process.env.ADMIN_PREFIX;
 
 const loggedIn = function (req, res, next) {
-  console.log("check");
   if (req.session.user) {
     // console.log("check");
     if (req.user[TableFields.userType].includes(1)) {
