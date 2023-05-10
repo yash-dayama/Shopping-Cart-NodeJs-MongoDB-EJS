@@ -1,4 +1,6 @@
 const UserAuthController = require("../controller/UserAuthController");
+const AdminController = require('../controller/AdminController')
+
 const { TableFields, UserTypes } = require("../utils/constants");
 let prefix = process.env.ADMIN_PREFIX;
 
@@ -12,6 +14,12 @@ let router = function (app, passport) {
       faliureRedirect: prefix + "/login",
       faliurFlash: true,
     })
+  );
+
+  app.get(
+    prefix + "/dashboard",
+    UserAuthController.loggedIn,
+    AdminController.dashboard
   );
 };
 
