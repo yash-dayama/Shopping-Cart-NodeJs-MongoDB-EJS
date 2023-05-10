@@ -39,7 +39,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-
 app.locals = {
   base_url: Util.getBaseURL(),
   admin_url: Util.getBaseURL() + process.env.ADMIN_PREFIX,

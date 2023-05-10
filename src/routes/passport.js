@@ -48,11 +48,11 @@ module.exports = function (passport) {
           .execute();
           console.log(user);
         if (!user)
-        console.log(user);
           return done(
             null,
             false,
-            req.flash("error", "These credentials do not match our records")
+            req.flash("error")
+            // req.flash("error", "These credentials do not match our records")
           ); // req.flash is the way to set flashdata using connect-flash
         if (!(await user.isValidPassword(req.body.password)))
           return done(
