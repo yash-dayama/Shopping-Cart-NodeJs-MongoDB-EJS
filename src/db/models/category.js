@@ -51,4 +51,4 @@ var categorySchema = mongoose.Schema(
 );
 
 const Category = mongoose.model(TableNames.Category, categorySchema);
-module.exports = Product;
+module.exports = Category;

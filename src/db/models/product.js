@@ -56,7 +56,7 @@ var productSchema = mongoose.Schema(
         },
         [TableFields.categoryId]: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: TableName.Category,
+          ref: TableNames.Category,
           _id: false,
         },
         [TableFields.descriptionCategory]: {
