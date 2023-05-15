@@ -3,11 +3,12 @@ const Util = require("../../utils/utils");
 const Category = require("../models/category");
 
 const CategoryService = class {
-  static insertRecord = (data) => {
+  static insertRecord = (req) => {
     return new ProjectionBuilder(async function () {
       let category = [];
       try {
-        category = await Category.insertMany(data);
+        category = await Category.insertMany(req.body.category);
+        console.log(req.body);
       } catch (e) {
         console.log(e);
         throw e;

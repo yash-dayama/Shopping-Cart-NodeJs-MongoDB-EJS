@@ -22,7 +22,7 @@ var categorySchema = mongoose.Schema(
           enum: [status.Active, status.Unactive],
         },
       ],
-      default: status.Active,
+      default: status.Unactive,
     },
     [TableFields.createdAt]: {
       type: Date,
