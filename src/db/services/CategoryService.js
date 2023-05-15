@@ -18,16 +18,20 @@ const CategoryService = class {
   };
 
   static getById = (id) => {
-    return new ProjectionBuilder(async function () {
+    /*return new ProjectionBuilder(async function () {
       let populateFields = this.populate;
       let projectionFields = { ...this };
       delete projectionFields.populate;
-
       return await Category.findOne(
         { [TableFields.ID]: id },
         this.populate(populateFields)
       );
-    });
+    });*/
+  
+      return new ProjectionBuilder(async function () {
+        return await Category.findOne({ [TableFields.ID]: id }, this);
+      });
+    
   };
 
   static getAll = (sortBy = {}, limit = 0, skip = 0) => {
@@ -39,22 +43,31 @@ const CategoryService = class {
     });
   };
 
-  static updateCategoryRecord = async (req) => {
-    let qry = {
-      [TableFields.ID]: req.body.categoryId,
+  static updateCategoryRecord = async (id, req) => {
+    /*let qry = {
+      [TableFields.ID]: req.body.id,
     };
     let result = await Category.findOneAndUpdate(
       qry,
       {
         [TableFields.title]: req.body.title,
         [TableFields.status]: 0,
-        [TableFields.shortDescription]: req.body.shortDescription,
+        [TableFields.shortDescription]: req.body.descriptionCategory,
       },
       {
         new: true,
       }
     );
+    return result;*/
+    let updateParams = {
+      [TableFields.title]: req.body.category[0].title,
+      [TableFields.descriptionCategory]: req.body.category[0].descriptionCategory,
+      [TableFields.updatedAt]: Util.getDate(),
+    };
+    let result = await Category.updateOne({ [TableFields.ID]: id }, updateParams);
+    console.log(result,id);
     return result;
+    
   };
 
   static existRecord = async (req) => {
@@ -89,7 +102,7 @@ const CategoryService = class {
     }
     if (records && records.length > 0) {
       let deleteRecordIds = records.map((a) => a[TableFields.ID]);
-      await Product.updateMany(
+      await Category.updateMany(
         { [TableFields.ID]: { $in: deleteRecordIds } },
         { [TableFields.deletedAt]: Util.getDate(), [TableFields.isDeleted]: 1 }
       );

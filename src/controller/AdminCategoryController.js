@@ -82,12 +82,14 @@ const edit = async function (req, res) {
     });
   } catch (error) {
     req.flash("error", "Exception: " + error);
+    res.redirect("back");
+
   }
 };
 
 const update = async function (req, res) {
   try {
-    await CategoryService.updateCategoryRecord(req.params.id, req);
+    await CategoryService.updateCategoryRecord(req.body.id, req);
     req.flash("success", "Category has been updated successfully");
     res.redirect(prefix + "/category");
   } catch (error) {
