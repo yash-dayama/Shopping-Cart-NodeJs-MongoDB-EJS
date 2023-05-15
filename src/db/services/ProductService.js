@@ -159,6 +159,7 @@ const ProjectionBuilder = class {
       */
       projection[TableFields.category] =
         "$" + TableFields.category + "." + TableFields.title;
+        return this;
     };
 
     const putInPopulate = (path, selection) => {

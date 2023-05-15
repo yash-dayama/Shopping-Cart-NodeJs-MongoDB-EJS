@@ -49,8 +49,8 @@ const TableNames = {
 };
 
 const status = {
-  Active: 0,
-  Unactive: 1,
+  Active: 1,
+  Unactive: 0,
 };
 const UserTypes = {
   Admin: 1,

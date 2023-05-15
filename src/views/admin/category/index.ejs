@@ -17,13 +17,13 @@
       <div class="row page-title">
         <div class="col-md-12">
           <div class="float-right mt-1">
-            <a href="<%-admin_url%>/products/add"
+            <a href="<%-admin_url%>/categories/add"
               ><button type="button" class="btn btn-primary btn-min-width">
                 <i class="ft-plus info"></i> Add new
               </button></a
             >
           </div>
-          <h4 class="mb-1 mt-0">PRODUCTs</h4>
+          <h4 class="mb-1 mt-0">Categories</h4>
         </div>
       </div>
 
@@ -33,7 +33,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-sm-12 col-md-auto datatable-title font-size-16">
-                  PRODUCTs
+                  CATEGORIES
                 </div>
               </div>
               <div class="row">
@@ -46,28 +46,29 @@
                       <tr>
                         <th>#</th>
                         <th>Title</th>
-                        <th>Short Description</th>
+                        <th>Description</th>
+                        <th>Image</th>
                         <th>Status</th>
-                        <th>Amount</th>
-                        <th>Quantity</th>
-                        <th>Category</th>
-
+                        
                         <th class="text-center">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <% if(typeof data.faqs !== "undefined" && data.faqs.length
-                      > 0){ %> <% let count=1; %> <% for (let faq of data.faqs)
+                      <% if(typeof data.category !== "undefined" && data.category.length
+                      > 0){ %> <% let count=1; %> <% for (let category of data.category)
                       { %>
                       <tr>
                         <td><%-count++%></td>
-                        <td><%-faq.question%></td>
+                        <td><%-category.title%></td>
                         <td class="w-100 wrap">
-                          <%if(faq.answer.toString().length>50) {%>
-                          <%-faq.answer.toString().slice(0,50).trim()%>...
+                          <%if(category.title.toString().length>50) {%>
+                          <%-category.description.toString().slice(0,50).trim()%>...
                         </td>
 
-                        <%}else{%> <%-faq.answer%><%}%>
+
+                        <%}else{%> <%-category.descriptionCategory%><%}%>
+                        <td><%-category.image%></td>
+                        <td><%-category.status%></td>
 
                         <td class="text-center">
                           <div class="dropdown align-self-center">
@@ -79,6 +80,7 @@
                             >
                               <i class="uil uil-ellipsis-h"></i>
                             </a>
+
                             <div
                               class="dropdown-menu dropdown-menu-right"
                               x-placement="bottom-end"
@@ -90,21 +92,22 @@
                                 transform: translate3d(45px, 20px, 0px);
                               "
                             >
+
                               <a
-                                href="<%-admin_url%>/faqs/edit/<%- faq._id %>"
+                                href="<%-admin_url%>/categories/edit/<%- category._id %>"
                                 class="dropdown-item"
                                 data-id=""
-                                title="Edit FAQ"
-                                >Edit FAQ</a
+                                title="Edit Category"
+                                >Edit Category</a
                               >
 
                               <div class="dropdown-divider"></div>
                               <a
                                 href="javascript:;"
                                 class="dropdown-item text-danger delete"
-                                data-id="<%- faq._id %>"
+                                data-id="<%- category._id %>"
                                 title="Delete"
-                                >Remove this FAQ</a
+                                >Remove this Category</a
                               >
                             </div>
                           </div>
@@ -124,7 +127,7 @@
 </div>
 <div class="footer-script">
   <script type="text/javascript">
-    var delete_url = "<%-admin_url%>/faqs/delete";
+    var delete_url = "<%-admin_url%>/categories/delete";
   </script>
 
   <script
@@ -139,7 +142,7 @@
   ></script>
   <script
     defer
-    src="<%-assets_url%>assets/js/pages/admin/product.js"
+    src="<%-assets_url%>assets/js/pages/admin/category.js"
     type="text/javascript"
   ></script>
 </div>
