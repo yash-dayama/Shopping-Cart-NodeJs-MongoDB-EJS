@@ -16,7 +16,7 @@
               <form
                 method="POST"
                 action="<%- is_update ? admin_url + '/products/update' : admin_url + '/products/store' %>"
-                class="form-horizontal form-validate faqs-form-validate"
+                class="form-horizontal form-validate product-form-validate"
                 novalidate="novalidate"
               >
                 <% if(is_update){ %>
@@ -31,35 +31,35 @@
                         >
                         <input
                           type="text"
-                          class="form-control question"
-                          placeholder="title"
-                          name="faq[0][question]"
-                          id="question"
+                          class="form-control title"
+                          placeholder="Title"
+                          name="product[0][title]"
+                          id="title"
                           autocomplete=""
-                          value="<%- is_update ? data.faq.question : '' %>"
+                          value="<%- is_update ? data.product.title : '' %>"
                         />
                       </div>
                       <div class="form-group col-md-12">
                         <label>Short Description <span class="text-danger">*</span></label>
                         <textarea
                           type="text"
-                          class="form-control answer"
+                          class="form-control shortDescription"
                           placeholder="Short Description"
-                          name="faq[0][answer]"
-                          id="answer"
+                          name="product[0][shortDescription]"
+                          id="shortDescription"
                         >
-<%= is_update ? data.faq.answer : '' %></textarea
+<%= is_update ? data.product.shortDescription : '' %></textarea
                         >
                       </div>
                       <div class="form-group col-md-12"><label>Full Description <span class="text-danger">*</span></label>
                         <textarea
                           type="text"
-                          class="form-control answer"
+                          class="form-control fullDescription"
                           placeholder="Full Description"
-                          name="faq[0][answer]"
-                          id="answer"
+                          name="product[0][fullDescription]"
+                          id="fullDescription"
                         >
-<%= is_update ? data.faq.answer : '' %></textarea
+<%= is_update ? data.product.fullDescription : '' %></textarea
                         ></div>
                         <div class="form-group col-md-12">
                           <label
@@ -67,12 +67,12 @@
                           >
                           <input
                             type="text"
-                            class="form-control question"
+                            class="form-control amount"
                             placeholder="Amount"
-                            name="faq[0][question]"
-                            id="question"
+                            name="product[0][amount]"
+                            id="amount"
                             autocomplete=""
-                            value="<%- is_update ? data.faq.question : '' %>"
+                            value="<%- is_update ? data.product.amount : '' %>"
                           />
                         </div>
                         <div class="form-group col-md-12">
@@ -81,12 +81,12 @@
                           >
                           <input
                             type="text"
-                            class="form-control question"
+                            class="form-control quantity"
                             placeholder="Quantity"
-                            name="faq[0][question]"
-                            id="question"
+                            name="faq[0][quantity]"
+                            id="quantity"
                             autocomplete=""
-                            value="<%- is_update ? data.faq.question : '' %>"
+                            value="<%- is_update ? data.product.quantity : '' %>"
                           />
                         </div>
                         <div class="form-group col-md-12">
