@@ -54,18 +54,21 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <% if(typeof data.faqs !== "undefined" && data.faqs.length
-                      > 0){ %> <% let count=1; %> <% for (let faq of data.faqs)
+                      <% if(typeof data.category !== "undefined" && data.category.length
+                      > 0){ %> <% let count=1; %> <% for (let category of data.category)
                       { %>
                       <tr>
                         <td><%-count++%></td>
-                        <td><%-faq.question%></td>
+                        <td><%-category.title%></td>
                         <td class="w-100 wrap">
-                          <%if(faq.answer.toString().length>50) {%>
-                          <%-faq.answer.toString().slice(0,50).trim()%>...
+                          <%if(category.title.toString().length>50) {%>
+                          <%-category.description.toString().slice(0,50).trim()%>...
                         </td>
 
-                        <%}else{%> <%-faq.answer%><%}%>
+
+                        <%}else{%> <%-category.descriptionCategory%><%}%>
+                        <td><%-category.image%></td>
+                        <td><%-category.status%></td>
 
                         <td class="text-center">
                           <div class="dropdown align-self-center">
@@ -77,6 +80,7 @@
                             >
                               <i class="uil uil-ellipsis-h"></i>
                             </a>
+
                             <div
                               class="dropdown-menu dropdown-menu-right"
                               x-placement="bottom-end"
@@ -88,21 +92,22 @@
                                 transform: translate3d(45px, 20px, 0px);
                               "
                             >
+
                               <a
-                                href="<%-admin_url%>/faqs/edit/<%- faq._id %>"
+                                href="<%-admin_url%>/categories/edit/<%- category._id %>"
                                 class="dropdown-item"
                                 data-id=""
-                                title="Edit FAQ"
-                                >Edit FAQ</a
+                                title="Edit Category"
+                                >Edit Category</a
                               >
 
                               <div class="dropdown-divider"></div>
                               <a
                                 href="javascript:;"
                                 class="dropdown-item text-danger delete"
-                                data-id="<%- faq._id %>"
+                                data-id="<%- category._id %>"
                                 title="Delete"
-                                >Remove this FAQ</a
+                                >Remove this Category</a
                               >
                             </div>
                           </div>
