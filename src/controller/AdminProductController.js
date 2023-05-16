@@ -95,9 +95,9 @@ const edit = async function (req, res) {
 
 const update = async function (req, res) {
   try {
-    await ProductService.updateProductRecord(req.params.id, req);
+    await ProductService.updateProductRecord(req.body.id, req);
     req.flash("success", "Product has been updated successfully");
-    res.redirect(prefix + "/products");
+    res.redirect(prefix + "/product");
   } catch (error) {
     console.log(error);
     req.flash("error", "Exception: " + error);

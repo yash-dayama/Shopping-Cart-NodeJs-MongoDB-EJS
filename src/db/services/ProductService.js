@@ -26,7 +26,7 @@ const ProductService = class {
   };
 
   static getById = (id) => {
-    return new ProjectionBuilder(async function () {
+    /*return new ProjectionBuilder(async function () {
       let populateFields = this.populate;
       let projectionFields = { ...this };
       delete projectionFields.populate;
@@ -35,7 +35,11 @@ const ProductService = class {
         { [TableFields.ID]: id },
         this.populate(populateFields)
       );
+    });*/
+    return new ProjectionBuilder(async function () {
+      return await Product.findOne({ [TableFields.ID]: id }, this);
     });
+  
   };
 
   static getAll = (sortBy = {}, limit = 0, skip = 0) => {
@@ -48,8 +52,8 @@ const ProductService = class {
     });
   };
 
-  static updateProductRecord = async (req) => {
-    let qry = {
+  static updateProductRecord = async (id, req) => {
+    /*let qry = {
       [TableFields.ID]: req.body.productId,
     };
     let result = await Product.findOneAndUpdate(
@@ -64,6 +68,18 @@ const ProductService = class {
         new: true,
       }
     );
+    return result;*/
+    let updateParams = {
+      [TableFields.title]: req.body.product[0].title,
+      [TableFields.shortDescription]: req.body.product[0].shortDescription,
+      [TableFields.fullDescription]: req.body.product[0].fullDescription,
+      [TableFields.amount]: req.body.product[0].amount,
+      [TableFields.quantity]: req.body.product[0].quantity,
+      [TableFields.updatedAt]: Util.getDate(),
+    };
+    console.log(updateParams);
+    let result = await Product.updateOne({ [TableFields.ID]: id }, updateParams);
+    console.log(result,id);
     return result;
   };
 
