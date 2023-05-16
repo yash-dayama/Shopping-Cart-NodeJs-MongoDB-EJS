@@ -3,11 +3,12 @@ const Util = require("../../utils/utils");
 const Product = require("../models/product");
 
 const ProductService = class {
-  static insertRecord = (data) => {
+  static insertRecord = (req) => {
     return new ProjectionBuilder(async function () {
       let product = [];
       try {
-        product = await Product.insertMany(data);
+        product = await Product.insertMany(req.body.product);
+        console.log(req.body);
       } catch (e) {
         console.log(e);
         throw e;

@@ -1,4 +1,4 @@
-<% let is_update = false; if(typeof data.faq !== "undefined"){ is_update = true;
+<% let is_update = false; if(typeof data.product !== "undefined"){ is_update = true;
 } %>
 <div class="content-page">
   <div class="content">
@@ -20,7 +20,7 @@
                 novalidate="novalidate"
               >
                 <% if(is_update){ %>
-                <input type="hidden" name="id" value="<%- data.faq._id %>" />
+                <input type="hidden" name="id" value="<%- data.product._id %>" />
                 <% } %>
                 <div class="row section-repeater mb-2" data-startingIndex="1">
                   <div class="r-group col-md-12">
@@ -83,7 +83,7 @@
                             type="text"
                             class="form-control quantity"
                             placeholder="Quantity"
-                            name="faq[0][quantity]"
+                            name="product[0][quantity]"
                             id="quantity"
                             autocomplete=""
                             value="<%- is_update ? data.product.quantity : '' %>"
@@ -97,7 +97,7 @@
     <label
                             >Category <span class="text-danger">*</span></label
                           >                                                            
-    <select name="choice" class="form-control">
+    <select name="category" class="form-control">
       <option value="first" selected>First Value</option>
       <option value="second" >Second Value</option>
       <option value="third">Third Value</option>
@@ -153,7 +153,7 @@
                   class="form-actions center"
                   style="display: flex; justify-content: flex-end"
                 >
-                  <a href="<%-admin_url%>/faqs"
+                  <a href="<%-admin_url%>/product"
                     ><button
                       type="button"
                       class="btn btn-danger mr-1 btn-min-width"

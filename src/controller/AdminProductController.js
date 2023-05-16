@@ -58,7 +58,7 @@ const store = async function (req, res) {
     var pro_ = await ProductService.insertRecord(req).execute();
     if (pro_) {
       req.flash("success", "Product has been added successfully");
-      res.redirect(prefix + "/products");
+      res.redirect(prefix + "/product");
     } else {
       req.flash("error", "Something went wrong");
       res.redirect("back");
