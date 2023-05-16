@@ -95,13 +95,13 @@
                         </div>
                         <div class="form-group col-md-12">
                           <label>Category <span class="text-danger">*</span></label>
-                          <select class="select form-control" placeholder="Category" name="category" id="category">
+                          <select class="select form-control" placeholder="Category" name="product[0][category]" id="category">
                             <option value="">Select Category</option>
                             <% if(typeof data.Category !=="undefined" && data.Category.length) { %>
                               <% for (let code of data.Category) { %>
-                                <option value="<%-code.title%>"><%-code.title%> </option>
-                                <% } %>
-                                  <% } %>
+                                <option value=<%-JSON.stringify(code)%> id="<%-code._id%>"><%-code.title%> </option>
+                              <% } %>
+                            <% } %>
                           </select>
                         </div>
                       <div

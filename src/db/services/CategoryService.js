@@ -140,6 +140,9 @@ const ProjectionBuilder = class {
 
     this.withBasicInfo = () => {
       projection[TableFields.title] = 1;
+      return this;
+    };
+    this.withDescription = () => {
       projection[TableFields.descriptionCategory] = 1;
       return this;
     };

@@ -36,7 +36,7 @@ const index = async function (req, res) {
 
 const create = async function (req, res) {
   try {
-    let category =  await CategoryService.getAllCategories().execute()
+    let category =  await CategoryService.getAllCategories().withId().withBasicInfo().execute()
     let data = {
       page: "product/addProduct",
       page_title: "Add Products ",

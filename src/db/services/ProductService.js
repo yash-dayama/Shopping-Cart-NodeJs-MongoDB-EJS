@@ -6,9 +6,17 @@ const ProductService = class {
   static insertRecord = (req) => {
     return new ProjectionBuilder(async function () {
       let product = [];
+      let data = [];
+      req.body.product.map((val) => {
+        data.push({
+          ...val,
+          category: JSON.parse(val.category)
+        })
+      });
       try {
-        product = await Product.insertMany(req.body.product);
-        console.log(req.body);
+        product = await Product.insertMany(data);
+        // console.log(JSON.parse(req.body.product[0].category));
+        console.log(data);
       } catch (e) {
         console.log(e);
         throw e;
