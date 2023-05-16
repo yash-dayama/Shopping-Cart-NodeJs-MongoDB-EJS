@@ -1,4 +1,4 @@
-<% let is_update = false; if(typeof data.faq !== "undefined"){ is_update = true;
+<% let is_update = false; if(typeof data.products !== "undefined"){ is_update = true;
 } %>
 <div class="content-page">
   <div class="content">
@@ -20,7 +20,7 @@
                 novalidate="novalidate"
               >
                 <% if(is_update){ %>
-                <input type="hidden" name="id" value="<%- data.faq._id %>" />
+                <input type="hidden" name="id" value="<%- data.products._id %>" />
                 <% } %>
                 <div class="row section-repeater mb-2" data-startingIndex="1">
                   <div class="r-group col-md-12">
@@ -36,7 +36,7 @@
                           name="product[0][title]"
                           id="title"
                           autocomplete=""
-                          value="<%- is_update ? data.product.title : '' %>"
+                          value="<%- is_update ? data.products.title : '' %>"
                         />
                       </div>
                       <div class="form-group col-md-12">
@@ -48,7 +48,7 @@
                           name="product[0][shortDescription]"
                           id="shortDescription"
                         >
-<%= is_update ? data.product.shortDescription : '' %></textarea
+<%= is_update ? data.products.shortDescription : '' %></textarea
                         >
                       </div>
                       <div class="form-group col-md-12"><label>Full Description <span class="text-danger">*</span></label>
@@ -59,7 +59,7 @@
                           name="product[0][fullDescription]"
                           id="fullDescription"
                         >
-<%= is_update ? data.product.fullDescription : '' %></textarea
+<%= is_update ? data.products.fullDescription : '' %></textarea
                         ></div>
                         <div class="form-group col-md-12">
                           <label
@@ -72,7 +72,7 @@
                             name="product[0][amount]"
                             id="amount"
                             autocomplete=""
-                            value="<%- is_update ? data.product.amount : '' %>"
+                            value="<%- is_update ? data.products.amount : '' %>"
                           />
                         </div>
                         <div class="form-group col-md-12">
@@ -83,26 +83,35 @@
                             type="text"
                             class="form-control quantity"
                             placeholder="Quantity"
-                            name="faq[0][quantity]"
+                            name="product[0][quantity]"
                             id="quantity"
                             autocomplete=""
-                            value="<%- is_update ? data.product.quantity : '' %>"
+                            value="<%- is_update ? data.products.quantity : '' %>"
                           />
                         </div>
                         <div class="form-group col-md-12">
                           <label class="form-label" for="customFile">Image<span class="text-danger">*</span></label>
-  <input type="file" class="form-control" id="customFile" />
-  </div>
-  <div class="form-group col-md-12">
-    <label
-                            >Category <span class="text-danger">*</span></label
-                          >                                                            
-    <select name="choice" class="form-control">
-      <option value="first" selected>First Value</option>
-      <option value="second" >Second Value</option>
-      <option value="third">Third Value</option>
-    </select>
-  </div>
+                          <input type="file" class="form-control" id="customFile" />
+                        </div>
+                        <div class="form-group col-md-12">
+                          <label>Category <span class="text-danger">*</span></label>
+                          <select class="select form-control" placeholder="Category" name="product[0][category]" id="category">
+                            <option value="">Select Category</option>
+                            <% console.log("code.title",data) %>
+
+                            <% if(typeof data.Category !=="undefined" && data.Category.length) { %>
+                              <% for (let code of data.Category) { %>
+                                
+                                <option value=<%-JSON.stringify(code)%> id="<%-code._id%>"> 
+                                  
+                                  
+                                
+                                  
+                                  <%= is_update && code.title === data.product[0].category ? 'selected' : '' %> <%-code.title%> </option>
+                              <% } %>
+                            <% } %>
+                          </select>
+                        </div>
                       <div
                         class="input-group-append col-md-auto"
                         style="display: none"
@@ -153,7 +162,7 @@
                   class="form-actions center"
                   style="display: flex; justify-content: flex-end"
                 >
-                  <a href="<%-admin_url%>/faqs"
+                  <a href="<%-admin_url%>/product"
                     ><button
                       type="button"
                       class="btn btn-danger mr-1 btn-min-width"

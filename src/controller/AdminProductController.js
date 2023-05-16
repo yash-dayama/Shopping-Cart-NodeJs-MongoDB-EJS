@@ -1,11 +1,12 @@
 let ProductService = require("../db/services/ProductService");
+let CategoryService = require("../db/services/CategoryService");
 let ServiceManager = require("../db/serviceManager");
 const { TableNames } = require("../utils/constants");
 let prefix = process.env.ADMIN_PREFIX;
 
 const index = async function (req, res) {
   try {
-    var pro = await ProductService.getAll()
+    var product = await ProductService.getAll()
       .withId()
       .withBasicInfo()
       .withAmount()
@@ -14,12 +15,12 @@ const index = async function (req, res) {
       .withImage()
       .withCategory()
       .execute();
-
+console.log(product);
     let data = {
       page: "product/index",
       page_title: "Products",
       url: req.url,
-      products: pro,
+      products: product,
     };
     res.render("admin/layouts/templates", {
       error: req.flash("error"),
@@ -35,12 +36,15 @@ const index = async function (req, res) {
 
 const create = async function (req, res) {
   try {
+    let category =  await CategoryService.getAllCategories().withId().withBasicInfo().execute()
     let data = {
       page: "product/addProduct",
       page_title: "Add Products ",
       // faq: faq,
       url: req.url,
+      Category: category
     };
+    // console.log(category);
     res.render("admin/layouts/templates", {
       error: req.flash("error"),
       success: req.flash("success"),
@@ -58,7 +62,7 @@ const store = async function (req, res) {
     var pro_ = await ProductService.insertRecord(req).execute();
     if (pro_) {
       req.flash("success", "Product has been added successfully");
-      res.redirect(prefix + "/products");
+      res.redirect(prefix + "/product");
     } else {
       req.flash("error", "Something went wrong");
       res.redirect("back");
@@ -71,12 +75,12 @@ const store = async function (req, res) {
 
 const edit = async function (req, res) {
   try {
-    var pro = await ProductService.getById(req.params.id).execute();
+    var product = await ProductService.getById(req.params.id).execute();
     let data = {
       page: "product/addProduct",
       page_title: "Edit Product",
       url: req.url,
-      product: pro,
+      products: product,
     };
     res.render("admin/layouts/templates", {
       error: req.flash("error"),
@@ -91,9 +95,9 @@ const edit = async function (req, res) {
 
 const update = async function (req, res) {
   try {
-    await ProductService.updateProductRecord(req.params.id, req);
+    await ProductService.updateProductRecord(req.body.id, req);
     req.flash("success", "Product has been updated successfully");
-    res.redirect(prefix + "/products");
+    res.redirect(prefix + "/product");
   } catch (error) {
     console.log(error);
     req.flash("error", "Exception: " + error);

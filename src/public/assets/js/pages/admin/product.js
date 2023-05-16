@@ -166,8 +166,8 @@ $(function () {
                     normalizer: function (value) {
                         return $.trim(value);
                     },
-                    minlength: 2,
-                    maxlength: 50,
+                    minlength: 1,
+                    // maxlength: 50,
                 },
                 /*email: {
           required: true,
