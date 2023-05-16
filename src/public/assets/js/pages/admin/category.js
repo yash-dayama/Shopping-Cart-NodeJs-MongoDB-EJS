@@ -82,8 +82,8 @@ $(function () {
     var data_id = $(_this).data("id");
     var sr = $(_this).parents("tr");
     swal({
-      title: "Remove Product",
-      text: "Are you sure you want to delete this Product?",
+      title: "Remove Category",
+      text: "Are you sure you want to delete this Category?",
       // icon: "warning",
       // reverseButtons: true,
       buttons: ["No", "Yes"],
