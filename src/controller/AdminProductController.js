@@ -1,4 +1,5 @@
 let ProductService = require("../db/services/ProductService");
+let CategoryService = require("../db/services/CategoryService");
 let ServiceManager = require("../db/serviceManager");
 const { TableNames } = require("../utils/constants");
 let prefix = process.env.ADMIN_PREFIX;
@@ -35,12 +36,15 @@ const index = async function (req, res) {
 
 const create = async function (req, res) {
   try {
+    let category =  await CategoryService.getAllCategories().execute()
     let data = {
       page: "product/addProduct",
       page_title: "Add Products ",
       // faq: faq,
       url: req.url,
+      Category: category
     };
+    // console.log(category);
     res.render("admin/layouts/templates", {
       error: req.flash("error"),
       success: req.flash("success"),

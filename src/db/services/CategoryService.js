@@ -43,6 +43,12 @@ const CategoryService = class {
     });
   };
 
+  static getAllCategories = () => {
+    return new ProjectionBuilder(async function () {
+      return await Category.find({ [TableFields.deletedAt]: "" }, this)
+    });
+  };
+
   static updateCategoryRecord = async (id, req) => {
     /*let qry = {
       [TableFields.ID]: req.body.id,

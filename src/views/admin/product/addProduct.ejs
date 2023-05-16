@@ -91,18 +91,19 @@
                         </div>
                         <div class="form-group col-md-12">
                           <label class="form-label" for="customFile">Image<span class="text-danger">*</span></label>
-  <input type="file" class="form-control" id="customFile" />
-  </div>
-  <div class="form-group col-md-12">
-    <label
-                            >Category <span class="text-danger">*</span></label
-                          >                                                            
-    <select name="category" class="form-control">
-      <option value="first" selected>First Value</option>
-      <option value="second" >Second Value</option>
-      <option value="third">Third Value</option>
-    </select>
-  </div>
+                          <input type="file" class="form-control" id="customFile" />
+                        </div>
+                        <div class="form-group col-md-12">
+                          <label>Category <span class="text-danger">*</span></label>
+                          <select class="select form-control" placeholder="Category" name="category" id="category">
+                            <option value="">Select Category</option>
+                            <% if(typeof data.Category !=="undefined" && data.Category.length) { %>
+                              <% for (let code of data.Category) { %>
+                                <option value="<%-code.title%>"><%-code.title%> </option>
+                                <% } %>
+                                  <% } %>
+                          </select>
+                        </div>
                       <div
                         class="input-group-append col-md-auto"
                         style="display: none"
