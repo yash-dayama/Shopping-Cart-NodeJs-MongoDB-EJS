@@ -56,18 +56,24 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <% if(typeof data.faqs !== "undefined" && data.faqs.length
-                      > 0){ %> <% let count=1; %> <% for (let faq of data.faqs)
+
+                      <% if(typeof data.products !== "undefined" && data.products.length
+                      > 0){ %> <% let count=1; %> <% for (let product of data.products)
                       { %>
                       <tr>
                         <td><%-count++%></td>
-                        <td><%-faq.question%></td>
+                        <td><%-product.title%></td>
                         <td class="w-100 wrap">
-                          <%if(faq.answer.toString().length>50) {%>
-                          <%-faq.answer.toString().slice(0,50).trim()%>...
+                          <%if(product.shortDescription.toString().length>50) {%>
+                          <%-product.shortDescription.toString().slice(0,50).trim()%>...
                         </td>
 
-                        <%}else{%> <%-faq.answer%><%}%>
+                        <%}else{%> <%-product.shortDescription%><%}%>
+                        <td><%-product.status%></td>
+                        <td><%-product.amount%></td>
+                        <td><%-product.quantity%></td>
+                        <td><%-product.category[0].title%></td>
+                      <%console.log("product",product)%>
 
                         <td class="text-center">
                           <div class="dropdown align-self-center">
@@ -91,20 +97,20 @@
                               "
                             >
                               <a
-                                href="<%-admin_url%>/faqs/edit/<%- faq._id %>"
+                                href="<%-admin_url%>/products/edit/<%- product._id %>"
                                 class="dropdown-item"
                                 data-id=""
-                                title="Edit FAQ"
-                                >Edit FAQ</a
+                                title="Edit PRODUCT"
+                                >Edit Product</a
                               >
 
                               <div class="dropdown-divider"></div>
                               <a
                                 href="javascript:;"
                                 class="dropdown-item text-danger delete"
-                                data-id="<%- faq._id %>"
+                                data-id="<%- product._id %>"
                                 title="Delete"
-                                >Remove this FAQ</a
+                                >Remove this Product</a
                               >
                             </div>
                           </div>
@@ -124,7 +130,7 @@
 </div>
 <div class="footer-script">
   <script type="text/javascript">
-    var delete_url = "<%-admin_url%>/faqs/delete";
+    var delete_url = "<%-admin_url%>/products/delete";
   </script>
 
   <script

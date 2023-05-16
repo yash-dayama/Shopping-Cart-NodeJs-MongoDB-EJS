@@ -6,7 +6,7 @@ let prefix = process.env.ADMIN_PREFIX;
 
 const index = async function (req, res) {
   try {
-    var pro = await ProductService.getAll()
+    var product = await ProductService.getAll()
       .withId()
       .withBasicInfo()
       .withAmount()
@@ -15,12 +15,12 @@ const index = async function (req, res) {
       .withImage()
       .withCategory()
       .execute();
-
+console.log(product);
     let data = {
       page: "product/index",
       page_title: "Products",
       url: req.url,
-      products: pro,
+      products: product,
     };
     res.render("admin/layouts/templates", {
       error: req.flash("error"),
@@ -75,12 +75,12 @@ const store = async function (req, res) {
 
 const edit = async function (req, res) {
   try {
-    var pro = await ProductService.getById(req.params.id).execute();
+    var product = await ProductService.getById(req.params.id).execute();
     let data = {
       page: "product/addProduct",
       page_title: "Edit Product",
       url: req.url,
-      product: pro,
+      products: product,
     };
     res.render("admin/layouts/templates", {
       error: req.flash("error"),

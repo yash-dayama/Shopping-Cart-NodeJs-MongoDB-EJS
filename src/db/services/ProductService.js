@@ -167,7 +167,7 @@ const ProjectionBuilder = class {
       projection[TableFields.category] = "$" + TableFields.category + "." + TableFields.status
       */
       projection[TableFields.category] =
-        "$" + TableFields.category + "." + TableFields.title;
+        1;
         return this;
     };
 
