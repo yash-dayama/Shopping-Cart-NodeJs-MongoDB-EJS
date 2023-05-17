@@ -28,7 +28,7 @@ module.exports = function (passport) {
       });
   });
 
-  /* User Login */
+  /* Admin Login */
   passport.use(
     "userLogin",
     new LocalStrategy(

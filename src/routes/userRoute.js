@@ -2,9 +2,12 @@ const UserAuthController = require("../controller/UserAuthController");
 const AdminController = require('../controller/AdminController')
 const AdminProductController = require('../controller/AdminProductController')
 const AdminCategoryController = require('../controller/AdminCategoryController')
+const UserCategoryController = require('../controller/UserCategoryController')
+const UserProductController = require('../controller/UserProductController')
 
 const { TableFields, UserTypes } = require("../utils/constants");
 let prefix = process.env.ADMIN_PREFIX;
+let Uprefix = process.env.USER_PREFIX;
 
 let router = function (app, passport) {
   /**---------------------------------Authentication----------------------------------- */
@@ -22,6 +25,11 @@ let router = function (app, passport) {
     prefix + "/dashboard",
     UserAuthController.loggedIn,
     AdminController.dashboard
+  );
+  app.get(
+    prefix + "/logout",
+    UserAuthController.loggedIn,
+    UserAuthController.logout
   );
     /**---------------------------------Settings----------------------------------- */
     app.get(
@@ -51,7 +59,7 @@ let router = function (app, passport) {
       AdminController.savepageContent
     );
 
-    /**---------------------------------PRODUCTS----------------------------------- */
+    /**---------------------------------PRODUCTS ADMIN----------------------------------- */
 
   app.all(
     prefix + "/product",
@@ -89,7 +97,7 @@ let router = function (app, passport) {
     AdminProductController.exists
   );
 
-  /**---------------------------------CATEGORY----------------------------------- */
+  /**---------------------------------CATEGORY ADMIN----------------------------------- */
 
   app.all(
     prefix + "/category",
@@ -126,6 +134,83 @@ let router = function (app, passport) {
     UserAuthController.loggedIn,
     AdminCategoryController.exists
   );
+
+
+  /**---------------------------------PRODUCTS USER----------------------------------- */
+
+  app.all(
+    Uprefix + "/product",
+    UserAuthController.loggedIn,
+    UserProductController.index
+  );
+  /*app.get(
+    prefix + "/products/add",
+    UserAuthController.loggedIn,
+    AdminProductController.create
+  );
+  app.post(
+    prefix + "/products/store",
+    UserAuthController.loggedIn,
+    AdminProductController.store
+  );
+  app.get(
+    prefix + "/products/edit/:id",
+    UserAuthController.loggedIn,
+    AdminProductController.edit
+  );
+  app.post(
+    prefix + "/products/update",
+    UserAuthController.loggedIn,
+    AdminProductController.update
+  );
+  app.post(
+    prefix + "/products/delete",
+    UserAuthController.loggedIn,
+    AdminProductController.destroy
+  );
+  app.post(
+    prefix + "/products/exists",
+    UserAuthController.loggedIn,
+    AdminProductController.exists
+  );*/
+
+   /**---------------------------------CATEGORY USER----------------------------------- */
+
+   app.all(
+    Uprefix + "/category",
+    UserAuthController.loggedIn,
+    UserCategoryController.index
+  );
+  /*app.get(
+    Uprefix + "/categories/add",
+    // UserAuthController.loggedIn,
+    // AdminCategoryController.create
+  );
+  app.post(
+    Uprefix + "/categories/store",
+    // UserAuthController.loggedIn,
+    UserCategoryController.store
+  );
+  app.get(
+    Uprefix + "/categories/edit/:id",
+    // UserAuthController.loggedIn,
+    // AdminCategoryController.edit
+  );
+  app.post(
+    Uprefix + "/categories/update",
+    // UserAuthController.loggedIn,
+    // AdminCategoryController.update
+  );
+  app.post(
+    Uprefix + "/categories/delete",
+    // UserAuthController.loggedIn,
+    // AdminCategoryController.destroy
+  );
+  app.post(
+    Uprefix + "/categories/exists",
+    // UserAuthController.loggedIn,
+    // AdminCategoryController.exists
+  );*/
 };
 
 module.exports = router;

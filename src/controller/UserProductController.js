@@ -2,7 +2,7 @@ let ProductService = require("../db/services/ProductService");
 let CategoryService = require("../db/services/CategoryService");
 let ServiceManager = require("../db/serviceManager");
 const { TableNames } = require("../utils/constants");
-let prefix = process.env.ADMIN_PREFIX;
+let prefix = process.env.USER_PREFIX;
 
 const index = async function (req, res) {
   try {
@@ -15,19 +15,19 @@ const index = async function (req, res) {
       .withImage()
       .withCategory()
       .execute();
-// console.log(product);
+console.log(product);
     let data = {
       page: "product/index",
       page_title: "Products",
       url: req.url,
       products: product,
     };
-    res.render("admin/layouts/templates", {
+    /*res.render("admin/layouts/templates", {
       error: req.flash("error"),
       success: req.flash("success"),
       session: req.session,
       data: data,
-    });
+    });*/
   } catch (error) {
     req.flash("error", "Exception: " + error);
     res.redirect("back");
