@@ -1,5 +1,7 @@
+const AdminAuthController = require("../controller/AdminAuthController");
 const UserAuthController = require("../controller/UserAuthController");
 const AdminController = require('../controller/AdminController')
+const RegisterUserController = require('../controller/RegisterUserController')
 const AdminProductController = require('../controller/AdminProductController')
 const AdminCategoryController = require('../controller/AdminCategoryController')
 const UserCategoryController = require('../controller/UserCategoryController')
@@ -10,8 +12,8 @@ let prefix = process.env.ADMIN_PREFIX;
 let Uprefix = process.env.USER_PREFIX;
 
 let router = function (app, passport) {
-  /**---------------------------------Authentication----------------------------------- */
-  app.get(prefix + "/login", UserAuthController.showLoginPage);
+  /**---------------------------------Authentication Admin----------------------------------- */
+  app.get(prefix + "/login", AdminAuthController.showLoginPage);
   app.post(
     prefix + "/login",
     passport.authenticate("userLogin", {
@@ -23,39 +25,61 @@ let router = function (app, passport) {
 
   app.get(
     prefix + "/dashboard",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminController.dashboard
   );
   app.get(
     prefix + "/logout",
-    UserAuthController.loggedIn,
-    UserAuthController.logout
+    AdminAuthController.loggedIn,
+    AdminAuthController.logout
   );
+
+  /**---------------------------------Authentication User----------------------------------- */
+  app.get(Uprefix + "/login", UserAuthController.showLoginPage);
+  app.post(
+    Uprefix + "/login",
+    passport.authenticate("userLogin", {
+      successRedirect: Uprefix + "/dashboard",
+      faliureRedirect: Uprefix + "/login",
+      faliurFlash: true,
+    })
+  );
+
+  app.get(
+    Uprefix + "/dashboard",
+    UserAuthController.loggedIn,
+    RegisterUserController.dashboard
+  );
+  /*app.get(
+    Uprefix + "/logout",
+    UserAuthController.loggedIn,
+    RegisterUserController.logout
+  );*/
     /**---------------------------------Settings----------------------------------- */
     app.get(
       prefix + "/edit/aboutUs",
-      UserAuthController.loggedIn,
+      AdminAuthController.loggedIn,
       AdminController.editPageContent
     );
     app.get(
       prefix + "/edit/privacyPolicy",
-      UserAuthController.loggedIn,
+      AdminAuthController.loggedIn,
       AdminController.editPageContent
     );
     app.get(
       prefix + "/edit/termsConditions",
-      UserAuthController.loggedIn,
+      AdminAuthController.loggedIn,
       AdminController.editPageContent
     );
    
     app.post(
       prefix + "/save-settings",
-      UserAuthController.loggedIn,
+      AdminAuthController.loggedIn,
       AdminController.saveSettings
     );
     app.post(
       prefix + "/savePageContent",
-      UserAuthController.loggedIn,
+      AdminAuthController.loggedIn,
       AdminController.savepageContent
     );
 
@@ -63,37 +87,37 @@ let router = function (app, passport) {
 
   app.all(
     prefix + "/product",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminProductController.index
   );
   app.get(
     prefix + "/products/add",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminProductController.create
   );
   app.post(
     prefix + "/products/store",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminProductController.store
   );
   app.get(
     prefix + "/products/edit/:id",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminProductController.edit
   );
   app.post(
     prefix + "/products/update",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminProductController.update
   );
   app.post(
     prefix + "/products/delete",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminProductController.destroy
   );
   app.post(
     prefix + "/products/exists",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminProductController.exists
   );
 
@@ -101,37 +125,37 @@ let router = function (app, passport) {
 
   app.all(
     prefix + "/category",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminCategoryController.index
   );
   app.get(
     prefix + "/categories/add",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminCategoryController.create
   );
   app.post(
     prefix + "/categories/store",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminCategoryController.store
   );
   app.get(
     prefix + "/categories/edit/:id",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminCategoryController.edit
   );
   app.post(
     prefix + "/categories/update",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminCategoryController.update
   );
   app.post(
     prefix + "/categories/delete",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminCategoryController.destroy
   );
   app.post(
     prefix + "/categories/exists",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminCategoryController.exists
   );
 
@@ -140,37 +164,37 @@ let router = function (app, passport) {
 
   app.all(
     Uprefix + "/product",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     UserProductController.index
   );
   /*app.get(
     prefix + "/products/add",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminProductController.create
   );
   app.post(
     prefix + "/products/store",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminProductController.store
   );
   app.get(
     prefix + "/products/edit/:id",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminProductController.edit
   );
   app.post(
     prefix + "/products/update",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminProductController.update
   );
   app.post(
     prefix + "/products/delete",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminProductController.destroy
   );
   app.post(
     prefix + "/products/exists",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     AdminProductController.exists
   );*/
 
@@ -178,37 +202,37 @@ let router = function (app, passport) {
 
    app.all(
     Uprefix + "/category",
-    UserAuthController.loggedIn,
+    AdminAuthController.loggedIn,
     UserCategoryController.index
   );
   /*app.get(
     Uprefix + "/categories/add",
-    // UserAuthController.loggedIn,
+    // AdminAuthController.loggedIn,
     // AdminCategoryController.create
   );
   app.post(
     Uprefix + "/categories/store",
-    // UserAuthController.loggedIn,
+    // AdminAuthController.loggedIn,
     UserCategoryController.store
   );
   app.get(
     Uprefix + "/categories/edit/:id",
-    // UserAuthController.loggedIn,
+    // AdminAuthController.loggedIn,
     // AdminCategoryController.edit
   );
   app.post(
     Uprefix + "/categories/update",
-    // UserAuthController.loggedIn,
+    // AdminAuthController.loggedIn,
     // AdminCategoryController.update
   );
   app.post(
     Uprefix + "/categories/delete",
-    // UserAuthController.loggedIn,
+    // AdminAuthController.loggedIn,
     // AdminCategoryController.destroy
   );
   app.post(
     Uprefix + "/categories/exists",
-    // UserAuthController.loggedIn,
+    // AdminAuthController.loggedIn,
     // AdminCategoryController.exists
   );*/
 };

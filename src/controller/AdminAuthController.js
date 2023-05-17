@@ -1,7 +1,7 @@
 const UserService = require("../db/services/UserService");
 const { TableFields, UserTypes } = require("../utils/constants");
 var bcrypt = require("bcryptjs");
-let prefix = process.env.USER_PREFIX;
+let prefix = process.env.ADMIN_PREFIX;
 
 const loggedIn = function (req, res, next) {
   if (req.session.user) {
@@ -9,7 +9,7 @@ const loggedIn = function (req, res, next) {
     if (req.user[TableFields.userType].includes(1)) {
       next();
     } else if (
-      req.user[TableFields.userType].includes(2) == UserTypes.Register
+      req.user[TableFields.userType].includes(2) == UserTypes.Admin
     ) {
       res.redirect("/");
     } else {
@@ -35,7 +35,7 @@ const showLoginPage = async function (req, res) {
         url: req.url,
         output: "",
       };
-      res.render("users/layouts/templates", 
+      res.render("admin/layouts/templates", 
       {
         error: req.flash("error"),
         success: req.flash("success"),
