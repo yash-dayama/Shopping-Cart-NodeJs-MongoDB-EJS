@@ -2,6 +2,7 @@ const UserService = require("../db/services/UserService");
 const { TableFields, UserTypes } = require("../utils/constants");
 var bcrypt = require("bcryptjs");
 let prefix = process.env.ADMIN_PREFIX;
+let Uprefix = process.env.ADMIN_PREFIX;
 
 const loggedIn = function (req, res, next) {
   if (req.session.user) {
@@ -81,10 +82,28 @@ const changePassword = async function (req, res) {
   }
 };
 
+const logout = function (req, res) {
+  try {
+    if (req.session.user) {
+      req.logout();
+      req.session.destroy(function (err) {
+        res.redirect(prefix + "/login");
+      });
+    } else {
+      res.redirect(prefix + "/login");
+    }
+  } catch (error) {
+    console.log(error);
+    req.flash("error", "Sorry, Something went wrong, Please try again.");
+    res.redirect("back");
+  }
+};
+
 
 
 module.exports = {
   showLoginPage,
   changePassword,
-  loggedIn
+  loggedIn,
+  logout
 };

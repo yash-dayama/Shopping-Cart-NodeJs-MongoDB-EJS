@@ -1,33 +1,31 @@
-let ProductService = require("../db/services/ProductService");
 let CategoryService = require("../db/services/CategoryService");
 let ServiceManager = require("../db/serviceManager");
 const { TableNames } = require("../utils/constants");
-let prefix = process.env.ADMIN_PREFIX;
+let prefix = process.env.USER_PREFIX;
 
 const index = async function (req, res) {
+
   try {
-    var product = await ProductService.getAll()
+    var category = await CategoryService.getAll()
       .withId()
-      .withBasicInfo()
-      .withAmount()
-      .withQuantity()
+      .withBasicInfo()    
+      .withDescription()
       .withStatus()
       .withImage()
-      .withCategory()
       .execute();
-// console.log(product);
+
     let data = {
-      page: "product/index",
-      page_title: "Products",
-      url: req.url,
-      products: product,
+      page: "category/index",
+      page_title: "Category",
+      url: req.url, 
+      category: category,
     };
-    res.render("admin/layouts/templates", {
+   /* res.render("admin/layouts/templates", {
       error: req.flash("error"),
       success: req.flash("success"),
       session: req.session,
       data: data,
-    });
+    });*/
   } catch (error) {
     req.flash("error", "Exception: " + error);
     res.redirect("back");
@@ -36,21 +34,17 @@ const index = async function (req, res) {
 
 const create = async function (req, res) {
   try {
-    let category =  await CategoryService.getAllCategories().withId().withBasicInfo().execute()
-    let data = {
-      page: "product/addProduct",
-      page_title: "Add Products ",
-      // faq: faq,
+    /*let data = {
+      page: "category/addCategory",
+      page_title: "Add Category ",
       url: req.url,
-      Category: category
     };
-    // console.log(category);
     res.render("admin/layouts/templates", {
       error: req.flash("error"),
       success: req.flash("success"),
       session: req.session,
       data: data,
-    });
+    });*/
   } catch (error) {
     req.flash("error", "Exception: " + error);
     res.redirect("back");
@@ -59,10 +53,10 @@ const create = async function (req, res) {
 
 const store = async function (req, res) {
   try {
-    var pro_ = await ProductService.insertRecord(req).execute();
-    if (pro_) {
-      req.flash("success", "Product has been added successfully");
-      res.redirect(prefix + "/product");
+    var cat_ = await CategoryService.insertRecord(req).execute();
+    if (cat_) {
+      req.flash("success", "Category has been added successfully");
+      res.redirect(prefix + "/category");
     } else {
       req.flash("error", "Something went wrong");
       res.redirect("back");
@@ -75,12 +69,12 @@ const store = async function (req, res) {
 
 const edit = async function (req, res) {
   try {
-    var product = await ProductService.getById(req.params.id).execute();
+    var cat = await CategoryService.getById(req.params.id).execute();
     let data = {
-      page: "product/addProduct",
-      page_title: "Edit Product",
+      page: "category/addCategory",
+      page_title: "Edit Category",
       url: req.url,
-      products: product,
+      category: cat,
     };
     res.render("admin/layouts/templates", {
       error: req.flash("error"),
@@ -90,14 +84,16 @@ const edit = async function (req, res) {
     });
   } catch (error) {
     req.flash("error", "Exception: " + error);
+    res.redirect("back");
+
   }
 };
 
 const update = async function (req, res) {
   try {
-    await ProductService.updateProductRecord(req.body.id, req);
-    req.flash("success", "Product has been updated successfully");
-    res.redirect(prefix + "/product");
+    await CategoryService.updateCategoryRecord(req.body.id, req);
+    req.flash("success", "Category has been updated successfully");
+    res.redirect(prefix + "/category");
   } catch (error) {
     console.log(error);
     req.flash("error", "Exception: " + error);
@@ -107,10 +103,10 @@ const update = async function (req, res) {
 
 const destroy = async function (req, res) {
   try {
-    await ServiceManager.cascadeDelete(TableNames.Product, req.body.id);
+    await ServiceManager.cascadeDelete(TableNames.Category, req.body.id);
     return res.json({
       status: true,
-      message: "Product has been deleted successfully",
+      message: "Category has been deleted successfully",
     });
   } catch (error) {
     console.log(error);
@@ -120,7 +116,7 @@ const destroy = async function (req, res) {
 
 const exists = async function (req, res) {
   try {
-    var exists = await ProductService.existRecord(req);
+    var exists = await CategoryService.existRecord(req);
 
     if (exists) {
       res.send(false);
