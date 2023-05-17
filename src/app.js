@@ -42,9 +42,10 @@ app.use(flash());
 app.locals = {
   base_url: Util.getBaseURL(),
   admin_url: Util.getBaseURL() + process.env.ADMIN_PREFIX,
+  user_url: Util.getBaseURL() + process.env.USER_PREFIX,
   assets_url: Util.getBaseURL() + "/",
   admin_prefix: process.env.ADMIN_PREFIX,
-  venue_url: Util.getBaseURL() + process.env.VENUE_ADMIN_PREFIX,
+  user_prefix: process.env.USER_PREFIX,
   //   moment: require("moment"),
 };
 
