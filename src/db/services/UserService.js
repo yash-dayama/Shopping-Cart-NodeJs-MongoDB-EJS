@@ -55,6 +55,12 @@ const UserService = class {
     });
   };
 
+  static getAllUsers = () => {
+    return new ProjectionBuilder(async function () {
+      return await User.find({ [TableFields.deletedAt]: "" }, this)
+    });
+  };
+
   static getUserByEmail = (userEmail, userType) => {
     return new ProjectionBuilder(async function () {
       return await User.findOne(
@@ -192,6 +198,7 @@ const ProjectionBuilder = class {
     };
     this.withBasicInfo = () => {
       projection[TableFields.firstName] = 1;
+      projection[TableFields.middleName] = 1;
       projection[TableFields.lastName] = 1;
       projection[TableFields.birthDate] = 1;
       return this;

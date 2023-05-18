@@ -2,6 +2,7 @@ const AdminAuthController = require("../controller/AdminAuthController");
 const UserAuthController = require("../controller/UserAuthController");
 const AdminController = require('../controller/AdminController')
 const RegisterUserController = require('../controller/RegisterUserController')
+const UserRegisterationController = require('../controller/UserRegisterationController')
 const AdminProductController = require('../controller/AdminProductController')
 const AdminCategoryController = require('../controller/AdminCategoryController')
 const UserCategoryController = require('../controller/UserCategoryController')
@@ -35,16 +36,25 @@ let router = function (app, passport) {
   );
 
   /**---------------------------------Authentication User----------------------------------- */
-  app.get(Uprefix + "/login", UserAuthController.showLoginPage);
+  app.get(Uprefix + "/login", UserAuthController.showLoginPage, );
   app.post(
     Uprefix + "/login",
-    passport.authenticate("userLogin", {
+    passport.authenticate("userRegister", {
       successRedirect: Uprefix + "/dashboard",
       faliureRedirect: Uprefix + "/login",
       faliurFlash: true,
     })
   );
 
+  app.get(Uprefix + "/register", UserAuthController.showRegisterPage, UserRegisterationController.store );
+  app.post(
+    Uprefix + "/register",
+    passport.authenticate("userRegister", {
+      successRedirect: Uprefix + "/login",
+      faliureRedirect: Uprefix + "/register",
+      faliurFlash: true,
+    })
+  );
   app.get(
     Uprefix + "/dashboard",
     UserAuthController.loggedIn,
