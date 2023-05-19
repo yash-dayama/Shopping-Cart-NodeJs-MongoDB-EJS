@@ -39,7 +39,7 @@ let router = function (app, passport) {
   app.get(Uprefix + "/login", UserAuthController.showLoginPage, );
   app.post(
     Uprefix + "/login",
-    passport.authenticate("userRegister", {
+    passport.authenticate("redirect", {
       successRedirect: Uprefix + "/dashboard",
       faliureRedirect: Uprefix + "/login",
       faliurFlash: true,
@@ -49,7 +49,7 @@ let router = function (app, passport) {
   app.get(Uprefix + "/register", UserAuthController.showRegisterPage, UserRegisterationController.store );
   app.post(
     Uprefix + "/register",
-    passport.authenticate("userRegister", {
+    passport.authenticate("redirect", {
       successRedirect: Uprefix + "/login",
       faliureRedirect: Uprefix + "/register",
       faliurFlash: true,

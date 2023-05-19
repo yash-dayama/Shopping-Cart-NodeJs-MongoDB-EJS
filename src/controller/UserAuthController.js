@@ -52,12 +52,9 @@ const showLoginPage = async function (req, res) {
 
 const showRegisterPage = async function (req, res) {
   try {
-    console.log("hii");
     if (req.session.user) {
-      console.log("Session");
       res.redirect(prefix + "/");
     } else {
-      console.log("hii2");
       let data = {
         page: "auth/register",  
         page_title: "Register",

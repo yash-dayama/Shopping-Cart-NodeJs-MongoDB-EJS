@@ -72,37 +72,58 @@ module.exports = function (passport) {
 
     /* Register User Login */
     passport.use(
-        "userRegister",
+        "redirect",
         new LocalStrategy(
             {
+                // by default, local strategy uses username and password, we will override with email
                 usernameField: "email",
                 passwordField: "password",
                 passReqToCallback: true, // allows us to pass back the entire request to the callback
             },
             async function (req, email, password, done) {
-                // callback with email and password from our form
-                let user = await UserServices.getUserByEmail(email, UserTypes.User)
+                var existsUser = await UserServices.getUserByEmail(email, UserTypes.Register)
                 .withEmail()
                 .withPassword()
                 .withUserType()
                 .execute();
-                if (!user) {
-                    return done(null, false, 
-                      //req.flash("error", "These credentials do not match our records.")
-                      );
+                console.log("existsUser :-", existsUser);
+                // existsUser = await existsUser.execute();
+                if (existsUser !== null) {
+                    const token = existsUser.createAuthToken();
+                    console.log(token);
+                    // const fcmToken = req.body.fcmToken
+                    await UserServices.saveAuthToken(existsUser[TableFields.ID], token, "fcmToken").execute();
+                    req.session.user = existsUser;
+                    req.session.isVerified = 0;
+                    return done(
+                        null,
+                        existsUser
+                        // req.flash("success", "Square Service Connected Successfully!")
+                    );
+                } else {
+                    const user = await UserServices.insertUserRecord(req, UserTypes.Register).execute();
+                    console.log("user : ", user);
+
+                    try {
+                        if (user) {
+                            try {
+                                const token = user.createAuthToken();
+                                // const fcmToken = req.body.fcmToken;
+                                let data = await UserServices.saveAuthToken(
+                                    user[TableFields.ID],
+                                    token,
+                                    "fcmToken"
+                                ).execute();
+                                req.session.user = user;
+                                return done(null, user);
+                            } catch (e) {
+                                console.log("++++++++++++++++++++++", e);
+                            }
+                        }
+                    } catch (err) {
+                        console.log(err);
+                    }
                 }
-                if (!(await user.isValidPassword(req.body.password))) {
-                    return done(null, false, 
-                      // req.flash("error", "Password is wrong, Please enter correct password.")
-                      );
-                }
-                if (!user[TableFields.userType].includes(1)) {
-                    return done(null, false, 
-                      // req.flash("error", "You don't have permission to access this page.")
-                      );
-                }
-                req.session.user = user;
-                return done(null, user);
             }
         )
     );
