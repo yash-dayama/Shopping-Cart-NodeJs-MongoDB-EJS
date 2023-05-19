@@ -37,15 +37,18 @@ var userSchema = mongoose.Schema(
       required: [false, ValidationMsgs.birthDateEmpty],
     },
     [TableFields.gender]: {
-      type: Number,
+      type: String,
+     /* type: [{
+        type : Number,
       enum: [
         Gender.Male,
         Gender.Female,
         Gender.Intersex,
         Gender.NonBinary,
         Gender.None,
-      ],
-      default: Gender.Male,
+      ],}N
+    ],
+      default: Gender.Male,*/
     },
     [TableFields.userType]: {
       type: [
@@ -128,6 +131,7 @@ userSchema.methods.createAuthToken = function () {
     },
     process.env.JWT_PRIVATE_KEY
   );
+  console.log(token);
   return token;
 };
 

@@ -21,6 +21,9 @@ const UserService = class {
         if (req.body.firstName) {
           user[TableFields.firstName] = req.body.firstName;
         }
+        if (req.body.middleName) {
+          user[TableFields.middleName] = req.body.middleName;
+        }
 
         if (req.body.lastName) {
           user[TableFields.lastName] = req.body.lastName;
@@ -55,6 +58,12 @@ const UserService = class {
     });
   };
 
+  static getAllUsers = () => {
+    return new ProjectionBuilder(async function () {
+      return await User.find({ [TableFields.deletedAt]: "" }, this)
+    });
+  };
+
   static getUserByEmail = (userEmail, userType) => {
     return new ProjectionBuilder(async function () {
       return await User.findOne(
@@ -86,6 +95,7 @@ const UserService = class {
       let updateQry = {
         $push: { tokens: token },
       };
+      // console.log(updateQry);
       /* if (fcmToken) {
         updateQry["$addToSet"] = {
           [TableFields.fcmToken]: {
@@ -99,8 +109,9 @@ const UserService = class {
         },
         updateQry
       );
+      console.log(User);
       //   UserService.removeFCMTokenFromOtherUsers(userId, fcmToken);
-      UserService.TokenFromOtherUsers(userId);
+      // UserService.TokenFromOtherUsers(userId);
     });
   };
 
@@ -192,6 +203,7 @@ const ProjectionBuilder = class {
     };
     this.withBasicInfo = () => {
       projection[TableFields.firstName] = 1;
+      projection[TableFields.middleName] = 1;
       projection[TableFields.lastName] = 1;
       projection[TableFields.birthDate] = 1;
       return this;
