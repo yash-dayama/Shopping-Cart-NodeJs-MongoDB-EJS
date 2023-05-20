@@ -245,6 +245,15 @@ let router = function (app, passport) {
     // AdminAuthController.loggedIn,
     // AdminCategoryController.exists
   );*/
+
+     /**---------------------------------Add To Cart ----------------------------------- */
+
+    /* app.all(
+      Uprefix + "/addtocart",
+      AdminAuthController.loggedIn,
+      UserRegisterationController.addToCart
+    );*/
+
 };
 
 module.exports = router;
