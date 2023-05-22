@@ -29,7 +29,7 @@
       </a>
       <div class="dropdown-menu profile-dropdown">
         <a
-          href="<%-admin_url%>/change-password"
+          href="<%-user_url%>/change-password"
           class="dropdown-item notify-item"
         >
           <i data-feather="user" class="icon-dual icon-xs mr-2"></i>
@@ -37,7 +37,7 @@
         </a>
 
         <a
-          href="<%-admin_url%>/logout"
+          href="<%-user_url%>/logout"
           class="dropdown-item notify-item logout"
         >
           <i data-feather="log-out" class="icon-dual icon-xs mr-2"></i>
@@ -53,7 +53,7 @@
         <!-- <li class="menu-title">Navigation</li> -->
 
         <li>
-          <a href="<%-admin_url%>/dashboard">
+          <a href="<%-user_url%>/dashboard">
             <i class="fa fa-home"></i>
             <span> Dashboard </span>
           </a>
@@ -68,15 +68,15 @@
 
         </li> --> 
         <li>
-          <a href="<%-admin_url%>/product">
+          <a href="<%-user_url%>/product">
             <i class="fa-brands fa-paypal"></i>
-            <span> Product </span>
+            <span> All Products </span>
           </a>
         </li>
         <li>
-          <a href="<%-admin_url%>/category">
-            <i class="fa-solid fa-layer-group"></i>
-            <span> Category </span>
+          <a href="<%-user_url%>/mycart">
+            <i class="fa-sharp fa-solid fa-cart-plus"></i>
+            <span> My Cart</span>
           </a>
         </li>
        
@@ -89,13 +89,13 @@
 
           <ul class="nav-second-level" aria-expanded="false">
             <li>
-              <a href="<%-admin_url%>/edit/aboutUs">About Us</a>
+              <a href="<%-user_url%>/edit/aboutUs">About Us</a>
             </li>
             <li>
-              <a href="<%-admin_url%>/edit/privacyPolicy">Privacy Policy</a>
+              <a href="<%-user_url%>/edit/privacyPolicy">Privacy Policy</a>
             </li>
             <li>
-              <a href="<%-admin_url%>/edit/termsConditions"
+              <a href="<%-user_url%>/edit/termsConditions"
                 >Terms & Conditions</a
               >
             </li>

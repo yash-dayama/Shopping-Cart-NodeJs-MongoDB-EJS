@@ -5,11 +5,10 @@ let prefix = process.env.USER_PREFIX;
 
 const loggedIn = function (req, res, next) {
   if (req.session.user) {
-    console.log("check");
-    if (req.user[TableFields.userType].includes(1)) {
+    if (req.user[TableFields.userType].includes(2)) {
       next();
     } else if (
-      req.user[TableFields.userType].includes(2) == UserTypes.Register
+      req.user[TableFields.userType].includes(1) == UserTypes.Register
     ) {
       res.redirect("/");
     } else {

@@ -1,0 +1,141 @@
+<div class="header-script">
+  <link
+    href="<%-assets_url%>assets/libs/datatables/dataTables.bootstrap4.min.css"
+    rel="stylesheet"
+    type="text/css"
+  />
+  <link
+    href="<%-assets_url%>assets/libs/datatables/responsive.bootstrap4.min.css"
+    rel="stylesheet"
+    type="text/css"
+  />
+</div>
+
+<div class="content-page">
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row page-title">
+        <div class="col-md-12">
+          <h4 class="mb-1 mt-0">My Cart</h4>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-12 col-md-auto datatable-title font-size-16">
+                  CART
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <table
+                    id="datatable-buttons"
+                    class="table table-striped dt-responsive nowrap data-table"
+                  >
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Status</th>
+                        
+                        <th class="text-center">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% if(typeof data.category !== "undefined" && data.category.length
+                      > 0){ %> <% let count=1; %> <% for (let category of data.category)
+                      { %>
+                      <tr>
+                        <td><%-count++%></td>
+                        <td><%-category.title%></td>
+                        <td class="w-100 wrap">
+                          <%if(category.title.toString().length>50) {%>
+                          <%-category.description.toString().slice(0,50).trim()%>...
+                        </td>
+
+
+                        <%}else{%> <%-category.descriptionCategory%><%}%>
+                        <td><%-category.image%></td>
+                        <td><%-category.status%></td>
+
+                        <td class="text-center">
+                          <div class="dropdown align-self-center">
+                            <a
+                              href="javascript:void(0);"
+                              class="dropdown-toggle arrow-none text-muted"
+                              data-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              <i class="uil uil-ellipsis-h"></i>
+                            </a>
+
+                            <div
+                              class="dropdown-menu dropdown-menu-right"
+                              x-placement="bottom-end"
+                              style="
+                                position: absolute;
+                                will-change: transform;
+                                top: 0px;
+                                left: 0px;
+                                transform: translate3d(45px, 20px, 0px);
+                              "
+                            >
+
+                              <a
+                                href="<%-admin_url%>/categories/edit/<%- category._id %>"
+                                class="dropdown-item"
+                                data-id=""
+                                title="Edit Category"
+                                >Edit Category</a
+                              >
+
+                              <div class="dropdown-divider"></div>
+                              <a
+                                href="javascript:;"
+                                class="dropdown-item text-danger delete"
+                                data-id="<%- category._id %>"
+                                title="Delete"
+                                >Remove this Category</a
+                              >
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <%}%> <%}%>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer-script">
+  <script type="text/javascript">
+    var delete_url = "<%-admin_url%>/categories/delete";
+  </script>
+
+  <script
+    defer
+    src="<%-assets_url%>assets/js/validation/validate.min.js"
+    type="text/javascript"
+  ></script>
+  <script
+    defer
+    src="<%-assets_url%>assets/vendors/js/extensions/sweetalert.min.js"
+    type="text/javascript"
+  ></script>
+  <script
+    defer
+    src="<%-assets_url%>assets/js/pages/admin/category.js"
+    type="text/javascript"
+  ></script>
+</div>

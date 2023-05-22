@@ -15,19 +15,19 @@ const index = async function (req, res) {
       .withImage()
       .withCategory()
       .execute();
-console.log(product);
+// console.log(product);
     let data = {
       page: "product/index",
       page_title: "Products",
       url: req.url,
       products: product,
     };
-    /*res.render("admin/layouts/templates", {
+    res.render("users/layouts/templates", {
       error: req.flash("error"),
       success: req.flash("success"),
       session: req.session,
       data: data,
-    });*/
+    });
   } catch (error) {
     req.flash("error", "Exception: " + error);
     res.redirect("back");

@@ -5,7 +5,8 @@ const RegisterUserController = require('../controller/RegisterUserController')
 const UserRegisterationController = require('../controller/UserRegisterationController')
 const AdminProductController = require('../controller/AdminProductController')
 const AdminCategoryController = require('../controller/AdminCategoryController')
-const UserCategoryController = require('../controller/UserCategoryController')
+const UserCartController = require('../controller/UserCartController')
+const UserCategoryController= require('../controller/UserCategoryController')
 const UserProductController = require('../controller/UserProductController')
 
 const { TableFields, UserTypes } = require("../utils/constants");
@@ -57,7 +58,7 @@ let router = function (app, passport) {
   );
   app.get(
     Uprefix + "/dashboard",
-    // UserAuthController.loggedIn,
+    UserAuthController.loggedIn,
     RegisterUserController.dashboard
   );
   /*app.get(
@@ -174,7 +175,7 @@ let router = function (app, passport) {
 
   app.all(
     Uprefix + "/product",
-    AdminAuthController.loggedIn,
+    UserAuthController.loggedIn,
     UserProductController.index
   );
   /*app.get(
@@ -208,12 +209,12 @@ let router = function (app, passport) {
     AdminProductController.exists
   );*/
 
-   /**---------------------------------CATEGORY USER----------------------------------- */
+   /**---------------------------------MyCart USER----------------------------------- */
 
    app.all(
-    Uprefix + "/category",
-    AdminAuthController.loggedIn,
-    UserCategoryController.index
+    Uprefix + "/mycart",
+    UserAuthController.loggedIn,
+    UserCartController.index
   );
   /*app.get(
     Uprefix + "/categories/add",
@@ -253,6 +254,33 @@ let router = function (app, passport) {
       AdminAuthController.loggedIn,
       UserRegisterationController.addToCart
     );*/
+    /**---------------------------------Settings----------------------------------- */
+    app.get(
+      Uprefix + "/edit/aboutUs",
+      UserAuthController.loggedIn,
+      RegisterUserController.editPageContent
+    );
+    app.get(
+      Uprefix + "/edit/privacyPolicy",
+      UserAuthController.loggedIn,
+      RegisterUserController.editPageContent
+    );
+    app.get(
+      Uprefix + "/edit/termsConditions",
+      UserAuthController.loggedIn,
+      RegisterUserController.editPageContent
+    );
+   
+    app.post(
+      Uprefix + "/save-settings",
+      UserAuthController.loggedIn,
+      RegisterUserController.saveSettings
+    );
+    app.post(
+      Uprefix + "/savePageContent",
+      UserAuthController.loggedIn,
+      RegisterUserController.savepageContent
+    );
 
 };
 
