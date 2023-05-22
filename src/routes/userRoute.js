@@ -50,14 +50,14 @@ let router = function (app, passport) {
   app.post(
     Uprefix + "/register",
     passport.authenticate("redirect", {
-      successRedirect: Uprefix + "/login",
+      successRedirect: Uprefix + "/dashboard",
       faliureRedirect: Uprefix + "/register",
       faliurFlash: true,
     })
   );
   app.get(
     Uprefix + "/dashboard",
-    UserAuthController.loggedIn,
+    // UserAuthController.loggedIn,
     RegisterUserController.dashboard
   );
   /*app.get(

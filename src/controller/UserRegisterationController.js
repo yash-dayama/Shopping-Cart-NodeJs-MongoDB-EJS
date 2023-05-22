@@ -41,9 +41,7 @@ const create = async function (req, res) {
 
 const store = async function (req, res) {
     try {
-        console.log("user/register");
         var registerUser = await UserService.insertUserRecord(req).execute();
-        console.log(req);
         if (registerUser) {
             req.flash("success", "User has been registered successfully");
             res.redirect(prefix + "/login");

@@ -37,12 +37,9 @@ const UserService = class {
                 if (req.body.password) {
                     user[TableFields.password] = req.body.password;
                 }
-                if (req.body.token) {
-                    user[TableFields.token] = req.body.token;
-                }
 
                 user[TableFields.userType] = UserTypes.Register;
-                console.log(user);
+                // console.log(user);
                 try {
                     await user.save();
                     return user;
@@ -80,6 +77,29 @@ const UserService = class {
         }
     });
 };*/
+    static addToCart = async function (req, res) {
+        return new ProjectionBuilder(async function () {
+            // let user = [];
+            let data = [];
+            req.body.user.map((val) => {
+                data.push({
+                    // ...val,
+                    // product: JSON.parse(val.product),
+                    [TableFields.productId]: val.productId,
+                    [TableFields.createdAt]: Util.getDate(),
+                    [TableFields.updatedAt]: Util.getDate(),
+                });
+            });
+            try {
+                await User.insertMany(data);
+                console.log(data);
+            } catch (error) {
+                console.log(error);
+                throw error;
+            }
+            return User;
+        });
+    };
 
     static getAllUsers = () => {
         return new ProjectionBuilder(async function () {
@@ -116,17 +136,11 @@ const UserService = class {
     static saveAuthToken = (userId, token = "") => {
         return new ProjectionBuilder(async function () {
             let updateQry = {
-                $push: {tokens: token},
+                $push: {token: token},
             };
-            // console.log(updateQry);
-            /* if (fcmToken) {
-        updateQry["$addToSet"] = {
-          [TableFields.fcmToken]: {
-            [TableFields.token]: fcmToken,
-          },
-        };
-      }*/
-            await User.updateOne(
+            console.log(token, userId);
+            
+           let query = await User.updateOne(
                 {
                     [TableFields.ID]: userId,
                 },

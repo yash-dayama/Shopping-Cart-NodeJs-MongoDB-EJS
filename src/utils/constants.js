@@ -23,6 +23,8 @@ const TableFields = {
   image: "image",
   descriptionCategory: "descriptionCategory",
   categoryId: "categoryId",
+  productId: "productId",
+  userId: "userId",
   firstName: "firstName",
   middleName: "middleName",
   lastName: "lastName",
@@ -40,6 +42,10 @@ const TableFields = {
   email: "email",
   token: "token",
   passwordResetToken: "passwordResetToken",
+  addToCart: "addToCart",
+  productName: "productName",
+  productPrice: "productPrice",
+  
 };
 
 const TableNames = {

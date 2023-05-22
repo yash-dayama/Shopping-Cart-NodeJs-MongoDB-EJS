@@ -5,7 +5,7 @@ let prefix = process.env.USER_PREFIX;
 
 const loggedIn = function (req, res, next) {
   if (req.session.user) {
-    // console.log("check");
+    console.log("check");
     if (req.user[TableFields.userType].includes(1)) {
       next();
     } else if (
@@ -17,7 +17,7 @@ const loggedIn = function (req, res, next) {
         "error",
         "You do not have sufficient permissions to access this page."
       );
-      res.redirect(prefix + "/login");
+      res.redirect(prefix + "/dashboard");
     }
   } else {
     res.redirect(prefix + "/login");
