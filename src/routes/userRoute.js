@@ -178,17 +178,17 @@ let router = function (app, passport) {
     UserAuthController.loggedIn,
     UserProductController.index
   );
-  /*app.get(
-    prefix + "/products/add",
-    AdminAuthController.loggedIn,
-    AdminProductController.create
-  );
-  app.post(
-    prefix + "/products/store",
-    AdminAuthController.loggedIn,
-    AdminProductController.store
-  );
   app.get(
+    Uprefix + "/my-cart",
+    UserAuthController.loggedIn,
+    UserProductController.create
+  );
+  /*app.post(
+    Uprefix + "/product",
+    UserAuthController.loggedIn,
+    UserProductController.store
+  );
+ app.get(
     prefix + "/products/edit/:id",
     AdminAuthController.loggedIn,
     AdminProductController.edit

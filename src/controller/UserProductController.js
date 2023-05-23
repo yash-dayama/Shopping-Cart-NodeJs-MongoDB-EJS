@@ -1,5 +1,6 @@
 let ProductService = require("../db/services/ProductService");
 let CategoryService = require("../db/services/CategoryService");
+let UserService = require("../db/services/UserService");
 let ServiceManager = require("../db/serviceManager");
 const { TableNames } = require("../utils/constants");
 let prefix = process.env.USER_PREFIX;
@@ -36,16 +37,16 @@ const index = async function (req, res) {
 
 const create = async function (req, res) {
   try {
-    let category =  await CategoryService.getAllCategories().withId().withBasicInfo().execute()
+    let cart =  await UserService.addToCart().withId().withBasicInfo().execute()
     let data = {
-      page: "product/addProduct",
-      page_title: "Add Products ",
+      page: "mycart/index",
+      page_title: "Cart ",
       // faq: faq,
       url: req.url,
-      Category: category
+      cart: cart
     };
-    // console.log(category);
-    res.render("admin/layouts/templates", {
+    console.log(cart);
+    res.render("users/layouts/templates", {
       error: req.flash("error"),
       success: req.flash("success"),
       session: req.session,
@@ -59,10 +60,11 @@ const create = async function (req, res) {
 
 const store = async function (req, res) {
   try {
-    var pro_ = await ProductService.insertRecord(req).execute();
-    if (pro_) {
+    console.log(req);
+    var cart = await UserService.addToCart(req).execute();
+    if (cart) {
       req.flash("success", "Product has been added successfully");
-      res.redirect(prefix + "/product");
+      res.redirect(prefix + "/cart");
     } else {
       req.flash("error", "Something went wrong");
       res.redirect("back");

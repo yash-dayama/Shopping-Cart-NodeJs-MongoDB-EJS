@@ -109,6 +109,42 @@ $(function () {
             }
         });
     });
+  
+    $(document).on("click", ".add-to-cart", function () {
+        var _this = $(this);
+        var data_id = $(_this).data("id");
+        var sr = $(_this).parents("tr");
+        swal({
+            title: "Add Product To Cart",
+            text: "Are you sure you want to add this Product?",
+            buttons: ["No", "Yes"],
+        }).then((isConfirm) => {
+            if (isConfirm) {
+                $.ajax({
+                    type: "POST",
+                    url: add_url,
+                    data: {product_id: data_id},
+                    success: function (data) {
+                        if (typeof data !== "undefined") {
+                            if (typeof data.status !== "undefined" && data.status == true) {
+                                // Perform desired actions upon success
+                                successToast(data.message);
+                            } else {
+                                // Perform desired actions upon failure
+                                console.log(add_url);
+                                errorToast(data.message);
+                            }
+                        } else {
+                            errorToast("Oops! Something went wrong. Please try again.");
+                        }
+                    },
+                    error: function (data) {
+                        errorToast("Oops! Something went wrong. Please try again.");
+                    },
+                });
+            }
+        });
+    });
 
     if (typeof validate !== "function" && $.fn.validate) {
         $(".form-validate").validate({
@@ -322,6 +358,12 @@ $(function () {
         if (!isValid) {
             return false;
         }
+    });
+
+    var addToCartBtn = document.querySelector(".add-to-cart");
+    addToCartBtn.addEventListener("click", function () {
+        // var productId = addToCartBtn.getAttribute('id');
+        // console.log('Product ID:', productId);
     });
 
     function extraValidations() {

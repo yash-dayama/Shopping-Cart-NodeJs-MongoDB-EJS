@@ -50,34 +50,27 @@ const UserService = class {
         });
     };
 
+    static addToCart = (req) => {
+        return new ProjectionBuilder(async function () {
+            let user = [];
+            let data = [];
+            req.body.user.map((val) => {
+              data.push({
+                ...val,
+                product: JSON.parse(val.product)
+              })
+            }); try {
+                user = await User.insertOne(data);
+                // console.log(JSON.parse(req.body.product[0].category));
+                console.log(data);
+              } catch (e) {
+                console.log(e);
+                throw e;
+              }
+              return user;
+        });
+    }
     /*static addToCart = async function (req, res) {
-    return new ProjectionBuilder(async function () {
-        try {
-            const userId = req.user[TableFields.ID];
-            const productId = req.body.productId;
-
-            const user = await User.findOne({ [TableFields.ID]: userId });
-            if (!user) {
-                throw new Error("User not found");
-            }
-
-            const product = await Product.findOne({ [TableFields.ID]: productId });
-            if (!product) {
-                throw new Error("Product not found");
-            }
-
-            // Add the product to the user's cart
-            user.cart.push(product);
-            await user.save();
-
-            res.send("Product added to cart successfully");
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
-    });
-};*/
-    static addToCart = async function (req, res) {
         return new ProjectionBuilder(async function () {
             // let user = [];
             let data = [];
@@ -86,6 +79,7 @@ const UserService = class {
                     // ...val,
                     // product: JSON.parse(val.product),
                     [TableFields.productId]: val.productId,
+                    [TableFields.category]: val.category,
                     [TableFields.createdAt]: Util.getDate(),
                     [TableFields.updatedAt]: Util.getDate(),
                 });
@@ -99,7 +93,7 @@ const UserService = class {
             }
             return User;
         });
-    };
+    };*/
 
     static getAllUsers = () => {
         return new ProjectionBuilder(async function () {
@@ -119,6 +113,12 @@ const UserService = class {
             );
         });
     };
+    static getByIntId = (id) => {
+        return new ProjectionBuilder(async function () {
+        //   return await User.findOne({ ["emailId"]: id }, this);
+          return await User.findOne({ [TableFields.email]: id }, this);
+        });
+      };
 
     static getUserByIdAndToken = (userId, token) => {
         return new ProjectionBuilder(async function () {
