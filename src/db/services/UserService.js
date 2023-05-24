@@ -4,6 +4,7 @@ const User = require("../models/user");
 const Product = require("../models/product");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+const Category = require("../models/category");
 
 const UserService = class {
     static insertUserRecord = (req, type) => {
@@ -50,51 +51,69 @@ const UserService = class {
         });
     };
 
-    static addToCart = (req) => {
+    /*static addToCart = (req) => {
         return new ProjectionBuilder(async function () {
-            let user = [];
-            let data = [];
-            req.body.user.map((val) => {
-              data.push({
-                ...val,
-                product: JSON.parse(val.product)
-              })
-            }); try {
-                user = await User.insertOne(data);
-                // console.log(JSON.parse(req.body.product[0].category));
-                console.log(data);
-              } catch (e) {
-                console.log(e);
-                throw e;
-              }
-              return user;
+           
+            console.log("from UserService addToCart => ", req.body)
+            
+              return req.body;
         });
-    }
-    /*static addToCart = async function (req, res) {
-        return new ProjectionBuilder(async function () {
-            // let user = [];
-            let data = [];
-            req.body.user.map((val) => {
-                data.push({
-                    // ...val,
-                    // product: JSON.parse(val.product),
-                    [TableFields.productId]: val.productId,
-                    [TableFields.category]: val.category,
-                    [TableFields.createdAt]: Util.getDate(),
-                    [TableFields.updatedAt]: Util.getDate(),
-                });
-            });
-            try {
-                await User.insertMany(data);
-                console.log(data);
-            } catch (error) {
-                console.log(error);
-                throw error;
+    }*/
+
+    /*static addToCart = async (req, id) => {
+        console.log("from UserService addToCart => ", req.body);
+
+        let qry = {
+            // userId: req.body.userId,
+            [TableFields.ID]: req.body.userId,
+        };
+        console.log(qry);
+
+        let result = await User.findOneAndUpdate(
+            qry,
+            {
+                [TableFields.productId]: req.body.product_id,
+                [TableFields.productName]: req.body.product_title,
+                [TableFields.category]: req.body.product_category,
+                [TableFields.productPrice]: req.body.product_amount,
+            },
+            {
+                new: true,
             }
-            return User;
-        });
+        );
+
+        return result;
+        
+        let updateParams = {
+            [TableFields.productId]: req.body.product_id,
+            [TableFields.productName]: req.body.product_title,
+            [TableFields.category]: req.body.product_category,
+            [TableFields.productPrice]: req.body.product_amount,
+          };
+          let result = await User.findOneAndUpdate({ [TableFields.ID]: id }, updateParams);
+          console.log("result",id);
+          return result;
     };*/
 
+    static addToCart = async (req) => {
+        console.log("from UserService addToCart => ", req.body);
+        console.log(req.user);
+    
+        let updateParams = {
+            [TableFields.productId]: req.body.product_id,
+            [TableFields.productName]: req.body.product_title,
+            [TableFields.category]: req.body.product_category,
+            [TableFields.productPrice]: req.body.product_amount,
+            [TableFields.createdAt]: Util.getDate(),
+            [TableFields.updatedAt]: Util.getDate(),
+            [TableFields.deletedAt]: Util.getDate()
+        };
+    
+        let result = await User.findOneAndUpdate({ _id: req.user._id }, {$push: {addToCart : updateParams}});
+        console.log("result", result);
+        return result;
+    };
+    
     static getAllUsers = () => {
         return new ProjectionBuilder(async function () {
             return await User.find({[TableFields.deletedAt]: ""}, this);
@@ -115,10 +134,10 @@ const UserService = class {
     };
     static getByIntId = (id) => {
         return new ProjectionBuilder(async function () {
-        //   return await User.findOne({ ["emailId"]: id }, this);
-          return await User.findOne({ [TableFields.email]: id }, this);
+            //   return await User.findOne({ ["emailId"]: id }, this);
+            return await User.findOne({[TableFields.email]: id}, this);
         });
-      };
+    };
 
     static getUserByIdAndToken = (userId, token) => {
         return new ProjectionBuilder(async function () {
@@ -139,8 +158,8 @@ const UserService = class {
                 $push: {token: token},
             };
             console.log(token, userId);
-            
-           let query = await User.updateOne(
+
+            let query = await User.updateOne(
                 {
                     [TableFields.ID]: userId,
                 },
@@ -262,6 +281,13 @@ const ProjectionBuilder = class {
             projection[TableFields.passwordResetToken] = 1;
             return this;
         };
+        this.withCartInfo = () => {
+            projection[TableFields.productId] = 1;
+            projection[TableFields.productName] = 1
+            projection[TableFields.category] = 1
+            projection[TableFields.productPrice] = 1
+            return this;
+        }
 
         const putInPopulate = (path, selection) => {
             if (projection.populate[path]) {

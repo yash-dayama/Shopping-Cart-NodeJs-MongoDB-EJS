@@ -4,6 +4,9 @@ if (typeof filter_url === "undefined") {
 if (typeof delete_url === "undefined") {
     var delete_url = "";
 }
+if (typeof add_url === "undefined") {
+    var add_url = "";
+}
 if (typeof block_url === "undefined") {
     var block_url = "";
 }
@@ -109,11 +112,17 @@ $(function () {
             }
         });
     });
-  
+
     $(document).on("click", ".add-to-cart", function () {
         var _this = $(this);
-        var data_id = $(_this).data("id");
+        var data_value = $(_this).data("value");
+        var data_id = $(_this).attr("id");
+        var data_title = $(_this).attr("title");
+        var data_amount = $(_this).attr("amount");
+        var data_category = $(_this).attr("category");
         var sr = $(_this).parents("tr");
+        // console.log( $(_this).data("value"));
+        console.log("hiee", data_value);
         swal({
             title: "Add Product To Cart",
             text: "Are you sure you want to add this Product?",
@@ -123,15 +132,22 @@ $(function () {
                 $.ajax({
                     type: "POST",
                     url: add_url,
-                    data: {product_id: data_id},
+                    data: {
+                        product_id: data_id,
+                        product_title: data_title,
+                        product_category: data_category,
+                        product_amount: data_amount,
+                    },
                     success: function (data) {
                         if (typeof data !== "undefined") {
                             if (typeof data.status !== "undefined" && data.status == true) {
                                 // Perform desired actions upon success
+                                // console.log(add_url);
                                 successToast(data.message);
                             } else {
                                 // Perform desired actions upon failure
-                                console.log(add_url);
+                                console.log("this is data ", data);
+                                console.log("Error ~ ", add_url);
                                 errorToast(data.message);
                             }
                         } else {

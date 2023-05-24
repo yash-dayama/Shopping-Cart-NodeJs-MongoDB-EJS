@@ -50,6 +50,25 @@ const index = async function (req, res) {
     }
   };
 
+  const store = async function (req, res) {
+    try {
+      // console.log("from userCartController => ", req.body);
+      var cart = await UserService.addToCart(req)
+      // console.log(cart);
+      if (cart) {
+        req.flash("success", "Product has been added successfully");
+        res.redirect(prefix + "/mycart");
+      } else {
+        req.flash("error", "Something went wrong");
+        res.redirect("back");
+      }
+    } catch (error) {
+      console.log(error);
+      req.flash("error", "Exception: " + error);
+    }
+  };
+
 module.exports = {
-    index
+    index,
+    store
 }

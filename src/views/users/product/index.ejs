@@ -54,7 +54,7 @@
                                     <li class="list-group-item">Category: <%- product.category[0].title %></li>
                                   </ul>
                                   <div class="text-center mt-3">
-                                    <button type="submit" class="btn btn-primary add-to-cart r-btnSubmit" value=<%-JSON.stringify(product)%> id="<%- product._id %>">Add to Cart</button>
+                                    <button type="submit" class="btn btn-primary add-to-cart r-btnSubmit" value=<%-JSON.stringify(product)%> id="<%- product._id %>" title="<%- product.title %>" amount="<%- product.amount %>"  category="<%- product.category[0].title %>" >Add to Cart</button>
                                   </div>
                                 </div>
                               </div>
@@ -83,7 +83,7 @@
 </div>
 <div class="footer-script">
   <script type="text/javascript">
-    var add_url = "<%-user_url%>/add-to-cart";
+    var add_url = "<%-user_url%>/addtocart";
   </script>
 
   <script

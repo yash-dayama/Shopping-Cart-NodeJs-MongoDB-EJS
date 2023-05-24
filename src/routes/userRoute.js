@@ -184,7 +184,7 @@ let router = function (app, passport) {
     UserProductController.create
   );
   /*app.post(
-    Uprefix + "/product",
+    Uprefix + "/addtocart",
     UserAuthController.loggedIn,
     UserProductController.store
   );
@@ -220,13 +220,13 @@ let router = function (app, passport) {
     Uprefix + "/categories/add",
     // AdminAuthController.loggedIn,
     // AdminCategoryController.create
-  );
+  );*/
   app.post(
-    Uprefix + "/categories/store",
-    // AdminAuthController.loggedIn,
-    UserCategoryController.store
+    Uprefix + "/addtocart",
+    UserAuthController.loggedIn,
+    UserCartController.store
   );
-  app.get(
+  /*app.get(
     Uprefix + "/categories/edit/:id",
     // AdminAuthController.loggedIn,
     // AdminCategoryController.edit

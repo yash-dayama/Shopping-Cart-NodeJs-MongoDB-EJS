@@ -64,7 +64,7 @@ const store = async function (req, res) {
     var cart = await UserService.addToCart(req).execute();
     if (cart) {
       req.flash("success", "Product has been added successfully");
-      res.redirect(prefix + "/cart");
+      res.redirect(prefix + "/addtocart");
     } else {
       req.flash("error", "Something went wrong");
       res.redirect("back");
