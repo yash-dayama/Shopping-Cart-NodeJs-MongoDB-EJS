@@ -1,3 +1,4 @@
+const User = require("../db/models/user");
 var UserService = require("../db/services/UserService");
 const {UserTypes} = require("../utils/constants");
 const Util = require("../utils/utils");
@@ -54,14 +55,24 @@ const index = async function (req, res) {
     try {
       // console.log("from userCartController => ", req.body);
       var cart = await UserService.addToCart(req)
-      // console.log(cart);
-      if (cart) {
-        req.flash("success", "Product has been added successfully");
-        res.redirect(prefix + "/mycart");
-      } else {
-        req.flash("error", "Something went wrong");
-        res.redirect("back");
-      }
+      var cartItem = await UserService.getAllCartItems(req).withCartInfo().execute()
+      console.log(cartItem);
+      let data = {
+        page: "mycart/index",
+        page_title: "My Cart",
+        // faq: faq,
+        url: req.url,
+        cartItem: cartItem
+      };
+      // console.log(category);
+      res.render("users/layouts/templates", {
+        error: req.flash("error"),
+        success: req.flash("success"),
+        session: req.session,
+        data: data,
+      });
+   
+      
     } catch (error) {
       console.log(error);
       req.flash("error", "Exception: " + error);

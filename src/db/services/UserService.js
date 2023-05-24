@@ -51,54 +51,10 @@ const UserService = class {
         });
     };
 
-    /*static addToCart = (req) => {
-        return new ProjectionBuilder(async function () {
-           
-            console.log("from UserService addToCart => ", req.body)
-            
-              return req.body;
-        });
-    }*/
-
-    /*static addToCart = async (req, id) => {
-        console.log("from UserService addToCart => ", req.body);
-
-        let qry = {
-            // userId: req.body.userId,
-            [TableFields.ID]: req.body.userId,
-        };
-        console.log(qry);
-
-        let result = await User.findOneAndUpdate(
-            qry,
-            {
-                [TableFields.productId]: req.body.product_id,
-                [TableFields.productName]: req.body.product_title,
-                [TableFields.category]: req.body.product_category,
-                [TableFields.productPrice]: req.body.product_amount,
-            },
-            {
-                new: true,
-            }
-        );
-
-        return result;
-        
-        let updateParams = {
-            [TableFields.productId]: req.body.product_id,
-            [TableFields.productName]: req.body.product_title,
-            [TableFields.category]: req.body.product_category,
-            [TableFields.productPrice]: req.body.product_amount,
-          };
-          let result = await User.findOneAndUpdate({ [TableFields.ID]: id }, updateParams);
-          console.log("result",id);
-          return result;
-    };*/
-
     static addToCart = async (req) => {
-        console.log("from UserService addToCart => ", req.body);
-        console.log(req.user);
-    
+        // console.log("from UserService addToCart => ", req.body);
+        // console.log(req.user);
+
         let updateParams = {
             [TableFields.productId]: req.body.product_id,
             [TableFields.productName]: req.body.product_title,
@@ -106,17 +62,23 @@ const UserService = class {
             [TableFields.productPrice]: req.body.product_amount,
             [TableFields.createdAt]: Util.getDate(),
             [TableFields.updatedAt]: Util.getDate(),
-            [TableFields.deletedAt]: Util.getDate()
+            [TableFields.deletedAt]: Util.getDate(),
         };
-    
-        let result = await User.findOneAndUpdate({ _id: req.user._id }, {$push: {addToCart : updateParams}});
-        console.log("result", result);
+
+        let result = await User.findOneAndUpdate({_id: req.user._id}, {$push: {addToCart: updateParams}});
+        // console.log("result", result);
         return result;
     };
-    
+
     static getAllUsers = () => {
         return new ProjectionBuilder(async function () {
             return await User.find({[TableFields.deletedAt]: ""}, this);
+        });
+    };
+    static getAllCartItems = (req) => {
+        return new ProjectionBuilder(async function () {
+            return await User.findById({_id: req.user._id}, this);
+            // return await User.findOne({ _id: req.user._id }, { addToCart: 1 }).lean();
         });
     };
 
@@ -282,12 +244,9 @@ const ProjectionBuilder = class {
             return this;
         };
         this.withCartInfo = () => {
-            projection[TableFields.productId] = 1;
-            projection[TableFields.productName] = 1
-            projection[TableFields.category] = 1
-            projection[TableFields.productPrice] = 1
+            projection[TableFields.addToCart] = 1;
             return this;
-        }
+        };
 
         const putInPopulate = (path, selection) => {
             if (projection.populate[path]) {
