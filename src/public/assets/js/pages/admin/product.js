@@ -116,13 +116,11 @@ $(function () {
     $(document).on("click", ".add-to-cart", function () {
         var _this = $(this);
         var data_value = $(_this).data("value");
-        var data_id = $(_this).attr("id");
-        var data_title = $(_this).attr("title");
-        var data_amount = $(_this).attr("amount");
-        var data_category = $(_this).attr("category");
+        var data_id = $(_this).data("id");
+        var data_title = $(_this).data("title");
+        var data_amount = $(_this).data("amount");
+        var data_category = $(_this).data("category");
         var sr = $(_this).parents("tr");
-        // console.log( $(_this).data("value"));
-        console.log("hiee", data_value);
         swal({
             title: "Add Product To Cart",
             text: "Are you sure you want to add this Product?",
@@ -143,11 +141,12 @@ $(function () {
                             if (typeof data.status !== "undefined" && data.status == true) {
                                 // Perform desired actions upon success
                                 // console.log(add_url);
+                                window.location.href = "/user/mycart"
                                 successToast(data.message);
                             } else {
                                 // Perform desired actions upon failure
-                                console.log("this is data ", data);
-                                console.log("Error ~ ", add_url);
+                                // console.log("this is data ", data);
+                                // console.log("Error ~ ", add_url);
                                 errorToast(data.message);
                             }
                         } else {
@@ -376,11 +375,6 @@ $(function () {
         }
     });
 
-    var addToCartBtn = document.querySelector(".add-to-cart");
-    addToCartBtn.addEventListener("click", function () {
-        // var productId = addToCartBtn.getAttribute('id');
-        // console.log('Product ID:', productId);
-    });
 
     function extraValidations() {
         if ($(".title").length) {

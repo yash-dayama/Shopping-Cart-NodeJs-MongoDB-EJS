@@ -40,7 +40,7 @@
                       <tr>
                         <th>#</th>
                         <th>Product </th>
-                        <th>Short Description</th>
+                        <th>Quantity </th>
                         <th>Amount</th>
                         <th>Total</th>
                         
@@ -56,13 +56,8 @@
                       <tr>
                         <td><%-count++%></td>
                         <td><%-product.title%></td>
-                        <td class="w-100 wrap">
-                          <%if(product.shortDescription.toString().length>50) {%>
-                          <%-product.shortDescription.toString().slice(0,50).trim()%>...
-                        </td>
-
-                        <%}else{%> <%-product.shortDescription%><%}%>
-                       
+                      
+                        <td><%-product.quantity%></td>
                         <td><%-product.amount%></td>
                         
 
@@ -88,7 +83,7 @@
                               "
                             >
                               <a
-                                href="<%-admin_url%>/products/edit/<%- product._id %>"
+                                href="<%-user_url%>/products/edit/<%- product._id %>"
                                 class="dropdown-item"
                                 data-id=""
                                 title="Edit PRODUCT"
