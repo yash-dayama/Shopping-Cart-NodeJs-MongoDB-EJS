@@ -116,10 +116,10 @@ $(function () {
     $(document).on("click", ".add-to-cart", function () {
         var _this = $(this);
         var data_value = $(_this).data("value");
-        var data_id = $(_this).data("id");
-        var data_title = $(_this).data("title");
-        var data_amount = $(_this).data("amount");
-        var data_category = $(_this).data("category");
+        var data_id = $(_this).attr("id");
+        var data_title = $(_this).attr("title");
+        var data_amount = $(_this).attr("amount");
+        var data_category = $(_this).attr("category");
         var sr = $(_this).parents("tr");
         swal({
             title: "Add Product To Cart",
