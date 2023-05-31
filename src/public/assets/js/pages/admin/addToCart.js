@@ -176,4 +176,87 @@ $(function () {
             return false;
         }
     });
+
+   /* $(document).on("click", ".increment", function() {
+        var _this = $(this);
+        // console.log("this", _this);
+        var data_value = $(_this).data("value");
+        console.log("data_value", data_value);
+        var data_id = $(_this).attr("id");
+        console.log("data_id", data_id);
+        var sr = $(_this).parents("td");
+        $.ajax({
+            type: "POST",
+            url: add_url,
+            data: {
+                product_id: data_id,
+            },success: function (data) {
+                console.log(data.message);
+                if (typeof data !== "undefined") {
+                    if (typeof data.status !== "undefined" && data.status == true) {
+                        // Perform desired actions upon success
+                        // console.log(add_url);
+                        // window.location.href = "/user/mycart";
+                        successToast(data.message);
+                    } else {
+                        // Perform desired actions upon failure
+                        // console.log("this is data ", data);
+                        errorToast(data.message);
+                    }
+                } else {
+                    errorToast("Oops! Something went wrong. Please try again.");
+                }
+            },
+            error: function (data) {
+                errorToast("Oops! Something went wrong. Please try again.");
+            },
+        });
+
+    })*/
+    
+    $(document).on('click', '.increment', function() {
+        let td = $(this).closest('td');
+        let quantity = parseInt(td.find('.quantity').text());
+
+        let pricetd = td.next("td")
+        let price = parseInt(pricetd.find('.initialPrice').text());
+        let totalpricetd = pricetd.next("td")
+        // let totalPrice = parseInt(pricetd.find('.totalPrice').text());
+
+        let sum = 0.0
+        quantity += 1;
+
+        let amount = (quantity * price)
+        sum += amount
+
+        console.log(sum);
+
+        td.find('.quantity').text(quantity);
+        // pricetd.find('.totalPrice').text(amount);
+        // console.log(totalpricetd);
+        totalpricetd.find('.totalPrice').text(''+sum)
+        
+      });       
+
+      $(document).on('click', '.decrement', function() {
+        let td = $(this).closest('td');
+        let quantity = parseInt(td.find('.quantity').text());
+      
+        let pricetd = td.next("td");
+        let price = parseInt(pricetd.find('.totalPrice').text());
+        let priceIn = parseInt(pricetd.find('.initialPrice').text());
+      
+        let totalpricetd = pricetd.next("td");
+      
+        if (quantity > 0) {
+          quantity -= 1;
+          let amount = price - priceIn;
+          let sum = quantity * priceIn;
+      
+          td.find('.quantity').text(quantity);
+          totalpricetd.find('.totalPrice').text('' + sum);
+        }
+      });
+      
+      
 });

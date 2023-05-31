@@ -17,7 +17,6 @@ const index = async function (req, res) {
             url: req.url,
             cartItems: cartItem,
         };
-        console.log(cartItem);
         // console.log(cartItem);
         res.render("users/layouts/templates", {
             error: req.flash("error"),
@@ -46,7 +45,39 @@ const store = async function (req, res) {
     }
 };
 
+
+const exists = async function (req, res) {
+    try {
+        console.log("Check");
+        var exists = await UserService.existCartRecord(req);
+        console.log(exists);
+        if (exists) {
+            res.send(false);
+        } else {
+            res.send(true);
+        }
+    } catch (error) {
+        console.log(error);
+        res.send(false);
+    }
+};
+
+const destroy = async function (req, res) {
+    try {
+      await UserService.removeCartItems(userId, productId);
+      return res.json({
+        status: true,
+        message: "Product has been deleted successfully",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.json({ status: false, message: error });
+    }
+  };
+
 module.exports = {
     index,
     store,
+    exists,
+    destroy
 };

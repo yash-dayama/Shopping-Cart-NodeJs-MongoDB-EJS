@@ -29,38 +29,45 @@
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>Product Name</th>
-                      <th>Price</th>
-                      <th>Category</th>
-                      <th>Quantity</th>
-                      <th>Action</th>
+                      <th class="text-center">Product Name</th>
+                      <th class="text-center">Category</th>
+                      <th class="text-center">Quantity</th>
+                      <th class="text-center">Price</th>
+                      <th class="text-center">SubTotal</th>
+                      <th class="text-center">Remove</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <% console.log(data.cartItems) %>
-                    <% console.log("Check thiss") %>
                     <% if (typeof data !== "undefined" && data.cartItems.addToCart.length > 0) { %>
-                   
                       <% let count = 1; %>
                       <% for (let item of data.cartItems.addToCart) { %>
+                      <% let totalPrice = item.productPrice * item.quantity; %> 
 
                         <tr>
-                          <td><%- count++ %></td>
-                          <td><%- item.productName  %></td>
-                          <td><%- item.productPrice %></td>
-                          <td><%- item.category %></td>
-                          <td><%- item.quantity %></td>
+                          <td class="text-center"><%- count++ %></td>
+                          <td class="text-left"><%- item.productName  %></td>
+                          <td class="text-center"><%- item.category %></td>
+                            <td class="text-center" value="<%-JSON.stringify(item)%>" id="<%- item._id %>">
+                              <button type="button" class="text-center decrement"> - </button> &nbsp; &nbsp;
+                              <span class="quantity">
+                                <%- item.quantity %>
+                              </span>
+                              &nbsp; &nbsp;<button type="button" class="text-center increment"> + </button>
+                            </td>
+                            <td class="text-center ">
+                              <span class="initialPrice"><%- totalPrice  %></span>
+                            </td>
+                          <td class="text-center price">
+                            <span class="totalPrice"><%- totalPrice  %></span>
+                          </td>
+                          
                           <td class="text-center">
-                            <div class="dropdown align-self-center">
-                              <a href="javascript:void(0);" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown" aria-expanded="false">
-                                <i class="uil uil-ellipsis-h"></i>
-                              </a>
-                              <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">
-                                <a href="<%- user_url %>/products/edit/<%- item.productId %>" class="dropdown-item" data-id="" title="Edit Product">Edit Product</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="javascript:;" class="dropdown-item text-danger delete" data-id="<%- item.productId %>" title="Delete">Remove this Product</a>
+                            
+                              <div class="" x-placement="bottom-end">
+                                <a data-id="<%- item.productId %>" class="text-danger"><i class="fas fa-trash fa-lf mx-1"></i></a>
                               </div>
-                            </div>
+                              
+                          
                           </td>
                         </tr>
                       <% } %>
