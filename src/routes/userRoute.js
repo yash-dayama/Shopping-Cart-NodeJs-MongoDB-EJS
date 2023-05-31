@@ -178,12 +178,12 @@ let router = function (app, passport) {
     UserAuthController.loggedIn,
     UserProductController.index
   );
-  app.get(
+ /* app.get(
     Uprefix + "/my-cart",
     UserAuthController.loggedIn,
     UserProductController.create
   );
-  /*app.post(
+  app.post(
     Uprefix + "/addtocart",
     UserAuthController.loggedIn,
     UserProductController.store
@@ -216,11 +216,6 @@ let router = function (app, passport) {
     UserAuthController.loggedIn,
     UserCartController.index
   );
-  /*app.get(
-    Uprefix + "/categories/add",
-    // AdminAuthController.loggedIn,
-    // AdminCategoryController.create
-  );*/
   app.post(
     Uprefix + "/addtocart",
     UserAuthController.loggedIn,
@@ -237,24 +232,18 @@ let router = function (app, passport) {
     // AdminCategoryController.update
   );
   app.post(
-    Uprefix + "/categories/delete",
-    // AdminAuthController.loggedIn,
-    // AdminCategoryController.destroy
-  );
-  app.post(
-    Uprefix + "/categories/exists",
-    // AdminAuthController.loggedIn,
-    // AdminCategoryController.exists
+    Uprefix + "/mycart/delete",
+    // UserAuthController.loggedIn,
+    // UserCartController.destroy
   );*/
+  app.get(Uprefix + "/addtocart", UserCartController.store)
+  app.post(
+    Uprefix + "/mycart/exists",
+    UserAuthController.loggedIn,
+    UserCartController.exists
+  );
 
-     /**---------------------------------Add To Cart ----------------------------------- */
-
-    /* app.all(
-      Uprefix + "/addtocart",
-      AdminAuthController.loggedIn,
-      UserRegisterationController.addToCart
-    );*/
-    /**---------------------------------Settings----------------------------------- */
+   /**---------------------------------Settings----------------------------------- */
     app.get(
       Uprefix + "/edit/aboutUs",
       UserAuthController.loggedIn,

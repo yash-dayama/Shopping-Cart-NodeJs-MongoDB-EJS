@@ -156,6 +156,51 @@ const UserService = class {
         return result;
     };
 
+    static removeCartItems = (userId, productId) => {
+        return new ProjectionBuilder(async function () {
+            await User.findOneAndUpdate(
+                {
+                    [TableFields.ID]: userId,
+                },
+                {
+                    $pull: {
+                        [TableFields.addToCart]: {
+                            [TableFields.productId]: productId,
+                        },
+                    },
+                },
+                {select: this, new: true}
+            );
+        });
+    };
+
+
+    static existCartRecord = async (req) => {
+        const qry = {
+            [TableFields.ID]: req.body.userId,
+            [TableFields.deletedAt]: "",
+            [TableFields.addToCart]: {
+                $elemMatch: {
+                    [TableFields.productId]: req.body.productId,
+                },
+            },
+        };
+    
+        const update = {
+            $set: {
+                [TableFields.addToCart.$.quantity]: req.body.quantity,
+            },
+        };
+    
+        const result = await User.findOneAndUpdate(qry, update);
+    
+        if (result) {
+          console.log("Value exists and has been updated");
+        } else {
+          console.log("Value doesn't exist");
+        }
+    };
+    
     static existRecord = async (req) => {
         var condition = {
             [TableFields.ID]: req.body.userId,
