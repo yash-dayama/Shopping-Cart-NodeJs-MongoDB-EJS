@@ -221,15 +221,15 @@ let router = function (app, passport) {
     UserAuthController.loggedIn,
     UserCartController.store
   );
+  app.post(
+    Uprefix + "/mycart/update",
+    UserAuthController.loggedIn,
+    UserCartController.update
+  );
   /*app.get(
     Uprefix + "/categories/edit/:id",
     // AdminAuthController.loggedIn,
     // AdminCategoryController.edit
-  );
-  app.post(
-    Uprefix + "/categories/update",
-    // AdminAuthController.loggedIn,
-    // AdminCategoryController.update
   );
   app.post(
     Uprefix + "/mycart/delete",

@@ -44,7 +44,16 @@ const store = async function (req, res) {
         req.flash("error", "Exception: " + error);
     }
 };
-
+const update = async function (req, res) {
+    try {
+        console.log("User Cart COntroller");
+      await UserService.updateUserQuantity(req);
+      req.flash("success", "Product has been updated successfully");
+    } catch (error) {
+      console.log(error);
+      req.flash("error", "Exception: " + error);
+    }
+  };
 
 const exists = async function (req, res) {
     try {
@@ -78,6 +87,7 @@ const destroy = async function (req, res) {
 module.exports = {
     index,
     store,
+    update,
     exists,
     destroy
 };

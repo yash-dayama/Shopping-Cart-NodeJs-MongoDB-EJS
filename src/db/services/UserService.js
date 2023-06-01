@@ -132,6 +132,26 @@ const UserService = class {
         });
     };
 
+    static updateUserQuantity = async (req) => {
+        console.log(req.body);
+        let incrementFlag = req.body.incrementFlag === 'true'; 
+        let qry = incrementFlag ? 1 : -1; 
+    
+        let result = await User.findOneAndUpdate(
+            {
+                _id: req.user._id,
+                "addToCart.productId": req.body.product_id,
+            },
+            {
+                $inc: { "addToCart.$.quantity": qry },
+                $set: { [TableFields.updatedAt]: Util.getDate() },
+            }
+        );
+    
+        return result;
+    };
+    
+    
     static updateUserRecord = async (req) => {
         let qry = {
             [TableFields.ID]: req.body.userId,
@@ -174,7 +194,6 @@ const UserService = class {
         });
     };
 
-
     static existCartRecord = async (req) => {
         const qry = {
             [TableFields.ID]: req.body.userId,
@@ -185,22 +204,22 @@ const UserService = class {
                 },
             },
         };
-    
+
         const update = {
             $set: {
                 [TableFields.addToCart.$.quantity]: req.body.quantity,
             },
         };
-    
+
         const result = await User.findOneAndUpdate(qry, update);
-    
+
         if (result) {
-          console.log("Value exists and has been updated");
+            console.log("Value exists and has been updated");
         } else {
-          console.log("Value doesn't exist");
+            console.log("Value doesn't exist");
         }
     };
-    
+
     static existRecord = async (req) => {
         var condition = {
             [TableFields.ID]: req.body.userId,
