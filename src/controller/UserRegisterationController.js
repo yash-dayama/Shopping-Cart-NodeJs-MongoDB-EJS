@@ -41,9 +41,7 @@ const create = async function (req, res) {
 
 const store = async function (req, res) {
     try {
-        console.log("user/register");
         var registerUser = await UserService.insertUserRecord(req).execute();
-        console.log(req);
         if (registerUser) {
             req.flash("success", "User has been registered successfully");
             res.redirect(prefix + "/login");
@@ -72,10 +70,50 @@ const exists = async function (req, res) {
     }
 };
 
+/*const addToCart = async function (req, res) {
+    try {
+      const userId = req.params.userId;
+      const productId = req.body.productId; 
+
+      const result = await UserService.addToCart(userId, productId);
+      console.log("User and product :", result);
+      
+      res.send("User and product connected successfully");
+    } catch (error) {
+      console.log(error);
+      res.status(500).send("Internal Server Error");
+    }
+  };*/
+  /*const addToCart = async function (req, res) {
+    // return new ProjectionBuilder(async function () {
+        try {
+            const userId = req.user[TableFields.ID];
+            const productId = req.body.productId;
+            console.log(userId);
+            const user = await User.findOne({[TableFields.ID]: userId});
+            if (!user) {
+                throw new Error("User not found");
+            }
+
+            const product = await Product.findOne({[TableFields.ID]: productId});
+            if (!product) {
+                throw new Error("Product not found");
+            }
+            user.cart.push(product);
+            await user.save();
+
+            res.send("Product added to cart successfully");
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    // });
+};*/
+
 module.exports = {
     index,
     create,
     store,
-    
+    // addToCart,
     exists,
 };

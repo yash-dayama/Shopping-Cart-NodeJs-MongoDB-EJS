@@ -5,11 +5,10 @@ let prefix = process.env.USER_PREFIX;
 
 const loggedIn = function (req, res, next) {
   if (req.session.user) {
-    // console.log("check");
-    if (req.user[TableFields.userType].includes(1)) {
+    if (req.user[TableFields.userType].includes(2)) {
       next();
     } else if (
-      req.user[TableFields.userType].includes(2) == UserTypes.Register
+      req.user[TableFields.userType].includes(1) == UserTypes.Register
     ) {
       res.redirect("/");
     } else {
@@ -17,7 +16,7 @@ const loggedIn = function (req, res, next) {
         "error",
         "You do not have sufficient permissions to access this page."
       );
-      res.redirect(prefix + "/login");
+      res.redirect(prefix + "/dashboard");
     }
   } else {
     res.redirect(prefix + "/login");

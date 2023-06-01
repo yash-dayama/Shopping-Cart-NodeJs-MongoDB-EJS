@@ -5,7 +5,8 @@ const RegisterUserController = require('../controller/RegisterUserController')
 const UserRegisterationController = require('../controller/UserRegisterationController')
 const AdminProductController = require('../controller/AdminProductController')
 const AdminCategoryController = require('../controller/AdminCategoryController')
-const UserCategoryController = require('../controller/UserCategoryController')
+const UserCartController = require('../controller/UserCartController')
+const UserCategoryController= require('../controller/UserCategoryController')
 const UserProductController = require('../controller/UserProductController')
 
 const { TableFields, UserTypes } = require("../utils/constants");
@@ -50,7 +51,7 @@ let router = function (app, passport) {
   app.post(
     Uprefix + "/register",
     passport.authenticate("redirect", {
-      successRedirect: Uprefix + "/login",
+      successRedirect: Uprefix + "/dashboard",
       faliureRedirect: Uprefix + "/register",
       faliurFlash: true,
     })
@@ -174,20 +175,20 @@ let router = function (app, passport) {
 
   app.all(
     Uprefix + "/product",
-    AdminAuthController.loggedIn,
+    UserAuthController.loggedIn,
     UserProductController.index
   );
-  /*app.get(
-    prefix + "/products/add",
-    AdminAuthController.loggedIn,
-    AdminProductController.create
+ /* app.get(
+    Uprefix + "/my-cart",
+    UserAuthController.loggedIn,
+    UserProductController.create
   );
   app.post(
-    prefix + "/products/store",
-    AdminAuthController.loggedIn,
-    AdminProductController.store
+    Uprefix + "/addtocart",
+    UserAuthController.loggedIn,
+    UserProductController.store
   );
-  app.get(
+ app.get(
     prefix + "/products/edit/:id",
     AdminAuthController.loggedIn,
     AdminProductController.edit
@@ -208,43 +209,68 @@ let router = function (app, passport) {
     AdminProductController.exists
   );*/
 
-   /**---------------------------------CATEGORY USER----------------------------------- */
+   /**---------------------------------MyCart USER----------------------------------- */
 
    app.all(
-    Uprefix + "/category",
-    AdminAuthController.loggedIn,
-    UserCategoryController.index
-  );
-  /*app.get(
-    Uprefix + "/categories/add",
-    // AdminAuthController.loggedIn,
-    // AdminCategoryController.create
+    Uprefix + "/mycart",
+    UserAuthController.loggedIn,
+    UserCartController.index
   );
   app.post(
-    Uprefix + "/categories/store",
-    // AdminAuthController.loggedIn,
-    UserCategoryController.store
+    Uprefix + "/addtocart",
+    UserAuthController.loggedIn,
+    UserCartController.store
   );
-  app.get(
+  app.post(
+    Uprefix + "/mycart/update",
+    UserAuthController.loggedIn,
+    UserCartController.update
+  );
+  /*app.get(
     Uprefix + "/categories/edit/:id",
     // AdminAuthController.loggedIn,
     // AdminCategoryController.edit
   );
   app.post(
-    Uprefix + "/categories/update",
-    // AdminAuthController.loggedIn,
-    // AdminCategoryController.update
-  );
-  app.post(
-    Uprefix + "/categories/delete",
-    // AdminAuthController.loggedIn,
-    // AdminCategoryController.destroy
-  );
-  app.post(
-    Uprefix + "/categories/exists",
-    // AdminAuthController.loggedIn,
-    // AdminCategoryController.exists
+    Uprefix + "/mycart/delete",
+    // UserAuthController.loggedIn,
+    // UserCartController.destroy
   );*/
+  app.get(Uprefix + "/addtocart", UserCartController.store)
+  app.post(
+    Uprefix + "/mycart/exists",
+    UserAuthController.loggedIn,
+    UserCartController.exists
+  );
+
+   /**---------------------------------Settings----------------------------------- */
+    app.get(
+      Uprefix + "/edit/aboutUs",
+      UserAuthController.loggedIn,
+      RegisterUserController.editPageContent
+    );
+    app.get(
+      Uprefix + "/edit/privacyPolicy",
+      UserAuthController.loggedIn,
+      RegisterUserController.editPageContent
+    );
+    app.get(
+      Uprefix + "/edit/termsConditions",
+      UserAuthController.loggedIn,
+      RegisterUserController.editPageContent
+    );
+   
+    app.post(
+      Uprefix + "/save-settings",
+      UserAuthController.loggedIn,
+      RegisterUserController.saveSettings
+    );
+    app.post(
+      Uprefix + "/savePageContent",
+      UserAuthController.loggedIn,
+      RegisterUserController.savepageContent
+    );
+
 };
 
 module.exports = router;

@@ -1,11 +1,5 @@
 var mongoose = require("mongoose");
-const {
-  TableNames,
-  TableFields,
-  UserTypes,
-  ValidationMsgs,
-  Gender,
-} = require("../../utils/constants");
+const {TableNames, TableFields, UserTypes, ValidationMsgs, Gender} = require("../../utils/constants");
 const Util = require("../../utils/utils");
 
 var bcrypt = require("bcryptjs");
@@ -13,32 +7,32 @@ const jwt = require("jsonwebtoken"); // To generate Hash
 
 //define the schema for our User model
 var userSchema = mongoose.Schema(
-  {
-    [TableFields.firstName]: {
-      type: String,
-      trim: true,
-      required: [true, ValidationMsgs.firstNameEmpty],
-      default: "",
-    },
-    [TableFields.middleName]: {
-      type: String,
-      trim: true,
-      // required: [true, ValidationMsgs.firstNameEmpty],
-      default: "",
-    },
-    [TableFields.lastName]: {
-      type: String,
-      trim: true,
-      required: [true, ValidationMsgs.lastNameEmpty],
-      default: "",
-    },
-    [TableFields.birthDate]: {
-      type: Date,
-      required: [false, ValidationMsgs.birthDateEmpty],
-    },
-    [TableFields.gender]: {
-      type: String,
-     /* type: [{
+    {
+        [TableFields.firstName]: {
+            type: String,
+            trim: true,
+            required: [true, ValidationMsgs.firstNameEmpty],
+            default: "",
+        },
+        [TableFields.middleName]: {
+            type: String,
+            trim: true,
+            // required: [true, ValidationMsgs.firstNameEmpty],
+            default: "",
+        },
+        [TableFields.lastName]: {
+            type: String,
+            trim: true,
+            required: [true, ValidationMsgs.lastNameEmpty],
+            default: "",
+        },
+        [TableFields.birthDate]: {
+            type: Date,
+            required: [false, ValidationMsgs.birthDateEmpty],
+        },
+        [TableFields.gender]: {
+            type: String,
+            /* type: [{
         type : Number,
       enum: [
         Gender.Male,
@@ -49,112 +43,151 @@ var userSchema = mongoose.Schema(
       ],}N
     ],
       default: Gender.Male,*/
-    },
-    [TableFields.userType]: {
-      type: [
-        {
-          type: Number,
-          enum: [UserTypes.Admin, UserTypes.Register, UserTypes.Guest],
         },
-      ],
-      // default: []
+        [TableFields.userType]: {
+            type: [
+                {
+                    type: Number,
+                    enum: [UserTypes.Admin, UserTypes.Register, UserTypes.Guest],
+                },
+            ],
+            // default: []
+        },
+        [TableFields.email]: {
+            type: String,
+            trim: true,
+            default: "",
+            required: [false, ValidationMsgs.emailEmpty],
+        },
+        [TableFields.password]: {
+            type: String,
+            trim: true,
+        },
+        [TableFields.token]: [
+            {
+                _id: false,
+                type: String,
+            },
+        ],
+        [TableFields.passwordResetToken]: {
+            type: String,
+            trim: true,
+        },
+        [TableFields.createdAt]: {
+            type: Date,
+            trim: true,
+            default: "",
+        },
+        [TableFields.updatedAt]: {
+            type: Date,
+            trim: true,
+            default: "",
+        },
+        [TableFields.deletedAt]: {
+            type: String,
+            trim: true,
+            default: "",
+        },
+        [TableFields.addToCart]: [
+            {
+                [TableFields.productId]: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: TableNames.Product,
+                    _id: false,
+                },
+                [TableFields.productName]: {
+                    type: String,
+                    default: "",
+                },
+                [TableFields.productPrice]: {
+                    type: String,
+                    default: "",
+                },
+                [TableFields.quantity]: {
+                    type: Number,
+                    default: "1",
+                },
+                [TableFields.category]: {
+                    type: String,
+                    default: "",
+                },
+                [TableFields.createdAt]: {
+                    type: Date,
+                    trim: true,
+                    default: "",
+                },
+                [TableFields.updatedAt]: {
+                    type: Date,
+                    trim: true,
+                    default: "",
+                },
+                [TableFields.deletedAt]: {
+                    type: String,
+                    trim: true,
+                    default: "",
+                },
+            },
+        ],
     },
-    [TableFields.email]: {
-      type: String,
-      trim: true,
-      default: "",
-      required: [false, ValidationMsgs.emailEmpty],
-    },
-    [TableFields.password]: {
-      type: String,
-      trim: true,
-    },
-    [TableFields.token]: [
-      {
-        _id: false,
-        type: String,
-      },
-    ],
-    [TableFields.passwordResetToken]: {
-      type: String,
-      trim: true,
-    },
-    [TableFields.createdAt]: {
-      type: Date,
-      trim: true,
-      default: "",
-    },
-    [TableFields.updatedAt]: {
-      type: Date,
-      trim: true,
-      default: "",
-    },
-    [TableFields.deletedAt]: {
-      type: String,
-      trim: true,
-      default: "",
-    },
-  },
-  {
-    timestamps: true,
-    toObject: {
-      transform: function (doc, ret) {
-        delete ret.__v;
-        delete ret.updatedAt;
-      },
-    },
-    toJSON: {
-      transform: function (doc, ret) {
-        delete ret.__v;
-        delete ret.updatedAt;
-        delete ret.password;
-        delete ret.passwordResetToken;
-      },
-    },
-  }
+    {
+        timestamps: true,
+        toObject: {
+            transform: function (doc, ret) {
+                delete ret.__v;
+                delete ret.updatedAt;
+            },
+        },
+        toJSON: {
+            transform: function (doc, ret) {
+                delete ret.__v;
+                delete ret.updatedAt;
+                delete ret.password;
+                delete ret.passwordResetToken;
+            },
+        },
+    }
 );
 
 // Generating a hash for user password
 userSchema.methods.generateHash = async function (password) {
-  return await bcrypt.hash(password, 8);
+    return await bcrypt.hash(password, 8);
 };
 
 // Check password is valid
 userSchema.methods.isValidPassword = async function (password) {
-  return await bcrypt.compare(password, this.password);
+    return await bcrypt.compare(password, this.password);
 };
 
 userSchema.methods.createAuthToken = function () {
-  const token = jwt.sign(
-    {
-      [TableFields.ID]: this[TableFields.ID].toString(),
-    },
-    process.env.JWT_PRIVATE_KEY
-  );
-  console.log(token);
-  return token;
+    const token = jwt.sign(
+        {
+            [TableFields.ID]: this[TableFields.ID].toString(),
+        },
+        process.env.JWT_PRIVATE_KEY
+    );
+    return token;
 };
 
 userSchema.methods.isAdmin = function () {
-  return this[TableFields.userType] == UserTypes.Admin;
+    return this[TableFields.userType] == UserTypes.Admin;
 };
 userSchema.methods.isAdmin = function () {
-  return this[TableFields.userType] == UserTypes.Guest;
+    return this[TableFields.userType] == UserTypes.Guest;
 };
 
 userSchema.pre("save", async function (next) {
-  const user = this;
-  if (user.isNew) {
-    user.created_at = user.updatedAt = Util.getDate();
-  } else {
-    user.updatedAt = Util.getDate();
-  }
+    const user = this;
+    if (user.isNew) {
+        user.created_at = user.updatedAt = Util.getDate();
+    } else {
+        user.updatedAt = Util.getDate();
+    }
 
-  if (user.isModified("password")) {
-    user.password = await bcrypt.hash(user.password, 8);
-  }
+    if (user.isModified("password")) {
+        user.password = await bcrypt.hash(user.password, 8);
+    }
 
-  next();
+    next();
 });
 
 const User = mongoose.model(TableNames.User, userSchema);

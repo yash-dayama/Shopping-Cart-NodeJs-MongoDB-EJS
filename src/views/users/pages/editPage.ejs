@@ -1,0 +1,86 @@
+<div class="content-page">
+  <div class="content">
+    <!-- Start Content-->
+    <div class="container-fluid">
+      <div class="row page-title">
+        <div class="col-md-12">
+          <h4 class="mb-1 mt-0"><%-data.page_heading%></h4>
+        </div>
+      </div>
+      <section id="summernote-edit-save">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card border-primary border-bottom-2">
+              <div class="card-header card-head-inverse bg-primary">
+                <h4 class="card-title card-head-inverse text-white">
+                  <%-data.page_heading%>
+                </h4>
+                <a class="heading-elements-toggle"
+                  ><i class="ft-ellipsis-h font-medium-3"></i
+                ></a>
+                <div class="heading-elements">
+                  <ul class="list-inline mb-0">
+                    <li>
+                      <a data-action="collapse"><i class="ft-minus"></i></a>
+                    </li>
+                    <li>
+                      <a data-action="expand"><i class="ft-maximize"></i></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-content collapse show">
+                <div class="card-body pt-4 pb-4 pl-4 pr-4">
+                  <form
+                    class="form-horizontal edit-page-form-validate"
+                    method="post"
+                    action="<%-admin_url%>/savePageContent"
+                  >
+                    <div class="form-group ckeditor">
+                      <textarea
+                        class="hidden1"
+                        name="page_content"
+                        id="page_content"
+                      >
+<%-data.pagecontent%></textarea
+                      >
+                    </div>
+                    <input
+                      type="hidden"
+                      name="file_name"
+                      value="<%-data.file_name%>"
+                    />
+                    <input
+                      type="hidden"
+                      name="page_title"
+                      value="<%-data.page_heading%>"
+                    />
+                    <button id="save" class="btn btn-primary" type="submit">
+                      Save
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer-script">
+        <script type="text/javascript">
+          var imageuploadurl = "";
+        </script>
+        <script
+          defer
+          src="<%-assets_url%>assets/vendors/js/editors/ckeditor/ckeditor.js"
+          type="text/javascript"
+        ></script>
+        <script
+          defer
+          src="<%-assets_url%>assets/js/pages/admin/editPageContent.js"
+          type="text/javascript"
+        ></script>
+      </div>
+    </div>
+  </div>
+</div>

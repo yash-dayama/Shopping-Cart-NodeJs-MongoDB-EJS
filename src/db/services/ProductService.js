@@ -16,7 +16,7 @@ const ProductService = class {
       try {
         product = await Product.insertMany(data);
         // console.log(JSON.parse(req.body.product[0].category));
-        console.log(data);
+        // console.log(data);
       } catch (e) {
         console.log(e);
         throw e;
