@@ -88,6 +88,11 @@ var userSchema = mongoose.Schema(
             trim: true,
             default: "",
         },
+        [TableFields.subTotal]: {
+            type: Number,
+            trim: true,
+            default: "",
+        },
         [TableFields.addToCart]: [
             {
                 [TableFields.productId]: {

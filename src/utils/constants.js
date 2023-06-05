@@ -45,6 +45,7 @@ const TableFields = {
   addToCart: "addToCart",
   productName: "productName",
   productPrice: "productPrice",
+  subTotal: "subTotal"
   
 };
 

@@ -180,6 +180,19 @@ $(function () {
         }
     });
 
+    $(document).ready(function () {
+        // Load cart item quantities from localStorage
+        $(".quantity").each(function () {
+            let productId = $(this).closest("td").attr("id");
+            let quantity = localStorage.getItem(productId);
+            if (quantity !== null) {
+                $(this).text(quantity);
+            }
+        });
+        let subtotal = calculateSubtotal();
+        $("#subtotal").text(subtotal);
+    });
+
     $(document).on("click", ".increment", function () {
         let td = $(this).closest("td");
         let data_id = $(this).attr("id");
@@ -201,6 +214,13 @@ $(function () {
         // pricetd.find('.totalPrice').text(amount);
         // console.log(totalpricetd);
         totalpricetd.find(".totalPrice").text("" + sum);
+        //local storage
+        let productId = td.attr("id");
+        localStorage.setItem(productId, quantity);
+
+        let subtotal = calculateSubtotal();
+        $("#subtotal").text(subtotal);
+
         $.ajax({
             type: "POST",
             url: update_url,
@@ -208,13 +228,12 @@ $(function () {
                 product_id: td.attr("id"),
                 quantity: quantity,
                 price: price,
-                incrementFlag: true
+                incrementFlag: true,
             },
             success: function (data) {
                 if (typeof data !== "undefined") {
                     if (typeof data.status !== "undefined" && data.status == true) {
                         console.log(product_id);
-                        // window.location.href = "/user/mycart"
                         successToast(data.message);
                     } else {
                         console.log("Error ~ ", update_url);
@@ -248,6 +267,13 @@ $(function () {
 
             td.find(".quantity").text(quantity);
             totalpricetd.find(".totalPrice").text("" + sum);
+            //local Storage
+            let productId = td.attr("id");
+            localStorage.setItem(productId, quantity);
+
+            // Update subtotal
+            let subtotal = calculateSubtotal();
+            $("#subtotal").text(subtotal);
 
             $.ajax({
                 type: "POST",
@@ -256,7 +282,7 @@ $(function () {
                     product_id: td.attr("id"),
                     quantity: quantity,
                     price: priceIn,
-                    incrementFlag: false
+                    incrementFlag: false,
                 },
                 success: function (data) {
                     if (typeof data !== "undefined") {
@@ -275,4 +301,12 @@ $(function () {
             });
         }
     });
+
+    function calculateSubtotal() {
+        let subtotal = 0;
+        $(".price").each(function () {
+            subtotal += parseInt($(this).find(".totalPrice").text());
+        });
+        return subtotal;
+    }
 });

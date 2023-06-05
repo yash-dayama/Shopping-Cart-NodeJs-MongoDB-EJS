@@ -132,7 +132,7 @@ const UserService = class {
         });
     };
 
-    static updateUserQuantity = async (req) => {
+     static updateUserQuantity = async (req) => {
         console.log(req.body);
         let incrementFlag = req.body.incrementFlag === 'true'; 
         let qry = incrementFlag ? 1 : -1; 
@@ -150,7 +150,6 @@ const UserService = class {
     
         return result;
     };
-    
     
     static updateUserRecord = async (req) => {
         let qry = {
