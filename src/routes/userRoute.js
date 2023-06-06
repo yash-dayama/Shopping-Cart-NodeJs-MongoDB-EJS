@@ -8,6 +8,7 @@ const AdminCategoryController = require('../controller/AdminCategoryController')
 const UserCartController = require('../controller/UserCartController')
 const UserCategoryController= require('../controller/UserCategoryController')
 const UserProductController = require('../controller/UserProductController')
+const OrderTableController = require('../controller/OrderTableController')
 
 const { TableFields, UserTypes } = require("../utils/constants");
 let prefix = process.env.ADMIN_PREFIX;
@@ -178,36 +179,6 @@ let router = function (app, passport) {
     UserAuthController.loggedIn,
     UserProductController.index
   );
- /* app.get(
-    Uprefix + "/my-cart",
-    UserAuthController.loggedIn,
-    UserProductController.create
-  );
-  app.post(
-    Uprefix + "/addtocart",
-    UserAuthController.loggedIn,
-    UserProductController.store
-  );
- app.get(
-    prefix + "/products/edit/:id",
-    AdminAuthController.loggedIn,
-    AdminProductController.edit
-  );
-  app.post(
-    prefix + "/products/update",
-    AdminAuthController.loggedIn,
-    AdminProductController.update
-  );
-  app.post(
-    prefix + "/products/delete",
-    AdminAuthController.loggedIn,
-    AdminProductController.destroy
-  );
-  app.post(
-    prefix + "/products/exists",
-    AdminAuthController.loggedIn,
-    AdminProductController.exists
-  );*/
 
    /**---------------------------------MyCart USER----------------------------------- */
 
@@ -243,6 +214,17 @@ let router = function (app, passport) {
     UserCartController.exists
   );
 
+   /**---------------------------------CheckOut----------------------------------- */
+   /*app.all(
+    Uprefix + "/checkout",
+    UserAuthController.loggedIn,
+    OrderTableController.index
+  );*/
+  app.post(
+    Uprefix + "/ordertable",
+    UserAuthController.loggedIn,
+    OrderTableController.store
+  );
    /**---------------------------------Settings----------------------------------- */
     app.get(
       Uprefix + "/edit/aboutUs",

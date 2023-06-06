@@ -47,7 +47,7 @@
                           <td class="text-center"><%- count++ %></td>
                           <td class="text-left"><%- item.productName  %></td>
                           <td class="text-center"><%- item.category %></td>
-                            <td class="text-center" value=<%-JSON.stringify(item)%> id="<%- item.productId %>">
+                            <td class="text-center" id="<%- item.productId %>">
                               <button type="button" class="text-center decrement"> - </button> &nbsp; &nbsp;
                               <span class="quantity">
                                 <%- item.quantity %>
@@ -84,17 +84,16 @@
                 <div class="col-auto bg-light" style="border: 1px solid #f6f6f7; ">
                   <div class="d-flex justify-content-between" >
                     <span class="mr-3 font-size-16">SUBTOTAL :</span>
-                    <span class="font-size-16">1000</span>
+                    <span id="subtotal" class="font-size-16">0</span>
                   </div>
                 </div>  
               </div>
               <div class="row justify-content-start" >
-                <div class="col-auto" style="border: 1px solid #f6f6f7; ">
-                  <div class="d-flex justify-content-between" >
-                    <button class="mr-3 font-size-16"> CHECKOUT </button>
+                <div class="col-auto" style="border: 1px solid #f6f6f7;">
+                  <div class="d-flex justify-content-between">
+                    <button class="mr-3 font-size-16 out" value='<%- JSON.stringify(data.cartItems.addToCart) %>'>CHECKOUT</button>
                   </div>
-                </div>  
-              </div>
+                </div>                
             </div>
           </div>
         </div>
@@ -110,6 +109,10 @@
 
   <script type="text/javascript">
     var update_url = "<%-user_url%>/mycart/update";
+  </script>
+
+  <script type="text/javascript">
+    var order_url = "<%-user_url%>/ordertable";
   </script>
 
   <script
