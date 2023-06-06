@@ -22,6 +22,9 @@ if (typeof approve_url === "undefined") {
 if (typeof exists_url === "undefined") {
     var exists_url = "";
 }
+if (typeof order_url === "undefined") {
+    var order_url = "";
+}
 
 var $declineModal = $("#declineModal"),
     $declineForm = $(".decline-form");
@@ -307,6 +310,38 @@ $(function () {
         $(".price").each(function () {
             subtotal += parseInt($(this).find(".totalPrice").text());
         });
+        // window.location.href = "/user/checkout";
         return subtotal;
     }
+
+    $(document).on("click", ".out", function () {
+        var _this = $(this);
+        var data_value = JSON.parse($(_this).attr("value"));
+        console.log(data_value);
+        var data_subtotal = parseInt($("#subtotal").text());
+
+        $.ajax({
+            type: "POST",
+            url: order_url,
+            data: {
+                data_value: data_value,
+                subtotal: data_subtotal
+            },
+            success: function (data) {
+                if (typeof data !== "undefined") {
+                    if (typeof data.status !== "undefined" && data.status == true) {
+                        successToast(data.message);
+                        // window.location.href = "/user/checkout";
+                    } else {
+                        errorToast(data.message);
+                    }
+                } else {
+                    errorToast("Oops! Something went wrong. Please try again.");
+                }
+            },
+            error: function (data) {
+                errorToast("Oops! Something went wrong. Please try again.");
+            },
+        });
+    });
 });

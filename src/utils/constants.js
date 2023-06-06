@@ -45,7 +45,8 @@ const TableFields = {
   addToCart: "addToCart",
   productName: "productName",
   productPrice: "productPrice",
-  subTotal: "subTotal"
+  subTotal: "subTotal",
+  productDetails: "productDetails"
   
 };
 
@@ -53,6 +54,7 @@ const TableNames = {
   User: "users",
   Product: "products",
   Category: "categories",
+  Order: "ordertable"
 };
 
 const status = {
