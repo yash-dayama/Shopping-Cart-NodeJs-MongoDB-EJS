@@ -200,6 +200,7 @@ $(function () {
         let td = $(this).closest("td");
         let data_id = $(this).attr("id");
         let quantity = parseInt(td.find(".quantity").text());
+        console.log(td.find(".quantity").text());
         let pricetd = td.next("td");
         let price = parseInt(pricetd.find(".initialPrice").text());
         let totalpricetd = pricetd.next("td");
@@ -331,7 +332,9 @@ $(function () {
                 if (typeof data !== "undefined") {
                     if (typeof data.status !== "undefined" && data.status == true) {
                         successToast(data.message);
-                        // window.location.href = "/user/checkout";
+                        // setTimeout(function () {
+                        //     window.location.href = "/user/checkout";
+                        //   }, 1000);
                     } else {
                         errorToast(data.message);
                     }
@@ -344,4 +347,5 @@ $(function () {
             },
         });
     });
+
 });

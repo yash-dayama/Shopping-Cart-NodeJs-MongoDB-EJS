@@ -2,43 +2,19 @@ const {TableNames, TableFields} = require("../../utils/constants");
 const Util = require("../../utils/utils");
 const OrderTable = require("../models/orderTable");
 
-/*const OrderTableService = class {
-    static insertDataInOrderTable = async (req) => {
-        return new ProjectionBuilder(async function () {
-            console.log("from OrderTable => ", req.body);
-            // console.log(req.user);
-
-            let updateParams = {
-                [TableFields.productId]: req.body.data_value.productId,
-                [TableFields.productName]: req.body.data_value.productName,
-                [TableFields.category]: req.body.data_value.product_category,
-                [TableFields.productPrice]: req.body.data_value.product_amount,
-                [TableFields.createdAt]: Util.getDate(),
-                [TableFields.updatedAt]: Util.getDate(),
-                [TableFields.deletedAt]: Util.getDate(),
-            };
-
-            let result = await OrderTable.insertMany({_id: req.user._id}, {$push: {productDetails: updateParams}}, {amount: req.user.subtotal});
-            console.log("result", result);
-            return result;
-        });
-    };
-};*/
-
 const OrderTableService = class {
     static insertDataInOrderTable = async (req) => {
       return new ProjectionBuilder(async function () {
         try {
-          console.log("from OrderTable => ", req.body);
   
           const productDetails = req.body.data_value.map((product) => ({
             productId: product.productId,
             productName: product.productName,
             category: product.category,
             productPrice: product.productPrice,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            deletedAt: new Date(),
+            createdAt: Util.getDate(),
+            updatedAt: Util.getDate(),
+            deletedAt: Util.getDate(),
           }));
   
           const order = new OrderTable({
@@ -48,7 +24,6 @@ const OrderTableService = class {
           });
   
           const result = await order.save();
-          console.log("result", result);
           return result;
         } catch (error) {
           console.error(error);

@@ -70,6 +70,17 @@ const UserService = class {
         return result;
     };
 
+    static addToCartNull = async (req) => {
+        try {
+            const result = await User.findOneAndUpdate({_id: req.user._id}, {$set: {addToCart: []}}, {new: true});
+            console.log("result", result);
+            return result;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    };
+
     static getAllUsers = () => {
         return new ProjectionBuilder(async function () {
             return await User.find({[TableFields.deletedAt]: ""}, this);
@@ -132,25 +143,25 @@ const UserService = class {
         });
     };
 
-     static updateUserQuantity = async (req) => {
+    static updateUserQuantity = async (req) => {
         console.log(req.body);
-        let incrementFlag = req.body.incrementFlag === 'true'; 
-        let qry = incrementFlag ? 1 : -1; 
-    
+        let incrementFlag = req.body.incrementFlag === "true";
+        let qry = incrementFlag ? 1 : -1;
+
         let result = await User.findOneAndUpdate(
             {
                 _id: req.user._id,
                 "addToCart.productId": req.body.product_id,
             },
             {
-                $inc: { "addToCart.$.quantity": qry },
-                $set: { [TableFields.updatedAt]: Util.getDate() },
+                $inc: {"addToCart.$.quantity": qry},
+                $set: {[TableFields.updatedAt]: Util.getDate()},
             }
         );
-    
+
         return result;
     };
-    
+
     static updateUserRecord = async (req) => {
         let qry = {
             [TableFields.ID]: req.body.userId,
