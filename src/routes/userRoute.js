@@ -215,11 +215,6 @@ let router = function (app, passport) {
   );
 
    /**---------------------------------CheckOut----------------------------------- */
-   /*app.all(
-    Uprefix + "/checkout",
-    UserAuthController.loggedIn,
-    OrderTableController.index
-  );*/
   app.post(
     Uprefix + "/ordertable",
     UserAuthController.loggedIn,
