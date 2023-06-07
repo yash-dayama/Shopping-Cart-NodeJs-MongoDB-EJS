@@ -189,7 +189,7 @@ $(function () {
             let productId = $(this).closest("td").attr("id");
             let quantity = localStorage.getItem(productId);
             if (quantity !== null) {
-                $(this).text(quantity);
+                // $(this).text(quantity); 
             }
         });
         let subtotal = calculateSubtotal();
@@ -233,6 +233,8 @@ $(function () {
                 quantity: quantity,
                 price: price,
                 incrementFlag: true,
+                totalprice:subtotal
+
             },
             success: function (data) {
                 if (typeof data !== "undefined") {
@@ -287,6 +289,7 @@ $(function () {
                     quantity: quantity,
                     price: priceIn,
                     incrementFlag: false,
+                    totalprice:subtotal
                 },
                 success: function (data) {
                     if (typeof data !== "undefined") {

@@ -46,7 +46,8 @@ const TableFields = {
   productName: "productName",
   productPrice: "productPrice",
   subTotal: "subTotal",
-  productDetails: "productDetails"
+  productDetails: "productDetails",
+  totalPrice:"totalPrice"
   
 };
 

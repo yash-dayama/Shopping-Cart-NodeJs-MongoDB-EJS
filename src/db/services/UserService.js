@@ -60,6 +60,7 @@ const UserService = class {
             [TableFields.productName]: req.body.product_title,
             [TableFields.category]: req.body.product_category,
             [TableFields.productPrice]: req.body.product_amount,
+            [TableFields.totalPrice]: req.body.product_amount,
             [TableFields.createdAt]: Util.getDate(),
             [TableFields.updatedAt]: Util.getDate(),
             [TableFields.deletedAt]: Util.getDate(),
