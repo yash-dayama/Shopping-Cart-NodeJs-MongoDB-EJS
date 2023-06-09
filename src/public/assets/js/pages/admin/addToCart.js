@@ -25,6 +25,9 @@ if (typeof exists_url === "undefined") {
 if (typeof order_url === "undefined") {
     var order_url = "";
 }
+if (typeof remove_url === "undefined") {
+    var remove_url = "";
+}
 
 var $declineModal = $("#declineModal"),
     $declineForm = $(".decline-form");
@@ -141,6 +144,7 @@ $(function () {
                         product_title: data_title,
                         product_category: data_category,
                         product_amount: data_amount,
+                        product_subTotal: td.find(".totalPrice").text(),
                     },
                     success: function (data) {
                         if (typeof data !== "undefined") {
@@ -189,7 +193,7 @@ $(function () {
             let productId = $(this).closest("td").attr("id");
             let quantity = localStorage.getItem(productId);
             if (quantity !== null) {
-                // $(this).text(quantity); 
+                // $(this).text(quantity);
             }
         });
         let subtotal = calculateSubtotal();
@@ -200,7 +204,7 @@ $(function () {
         let td = $(this).closest("td");
         let data_id = $(this).attr("id");
         let quantity = parseInt(td.find(".quantity").text());
-        console.log(td.find(".quantity").text());
+        // console.log(td.find(".quantity").text());
         let pricetd = td.next("td");
         let price = parseInt(pricetd.find(".initialPrice").text());
         let totalpricetd = pricetd.next("td");
@@ -212,8 +216,8 @@ $(function () {
         let amount = quantity * price;
         sum += amount;
 
-        console.log(sum);
-
+        console.log(totalpricetd);
+        // let totalPrice = $(".totalPrice").text();
         td.find(".quantity").text(quantity);
         // pricetd.find('.totalPrice').text(amount);
         // console.log(totalpricetd);
@@ -232,9 +236,9 @@ $(function () {
                 product_id: td.attr("id"),
                 quantity: quantity,
                 price: price,
+                // product_subTotal: totalPrice,
                 incrementFlag: true,
-                totalprice:subtotal
-
+                totalprice: subtotal,
             },
             success: function (data) {
                 if (typeof data !== "undefined") {
@@ -259,56 +263,62 @@ $(function () {
         let td = $(this).closest("td");
         let quantity = parseInt(td.find(".quantity").text());
         let data_id = $(this).attr("id");
-
+      
         let pricetd = td.next("td");
         let price = parseInt(pricetd.find(".totalPrice").text());
         let priceIn = parseInt(pricetd.find(".initialPrice").text());
-
+      
         let totalpricetd = pricetd.next("td");
-
-        if (quantity > 0) {
-            quantity -= 1;
-            let amount = price - priceIn;
-            let sum = quantity * priceIn;
-
-            td.find(".quantity").text(quantity);
-            totalpricetd.find(".totalPrice").text("" + sum);
-            //local Storage
-            let productId = td.attr("id");
-            localStorage.setItem(productId, quantity);
-
-            // Update subtotal
-            let subtotal = calculateSubtotal();
-            $("#subtotal").text(subtotal);
-
-            $.ajax({
-                type: "POST",
-                url: update_url,
-                data: {
-                    product_id: td.attr("id"),
-                    quantity: quantity,
-                    price: priceIn,
-                    incrementFlag: false,
-                    totalprice:subtotal
-                },
-                success: function (data) {
-                    if (typeof data !== "undefined") {
-                        if (typeof data.status !== "undefined" && data.status == true) {
-                            successToast(data.message);
-                        } else {
-                            errorToast(data.message);
-                        }
-                    } else {
-                        errorToast("Oops! Something went wrong. Please try again.");
-                    }
-                },
-                error: function (data) {
-                    errorToast("Oops! Something went wrong. Please try again.");
-                },
-            });
-        }
-    });
-
+     
+      
+     
+          quantity -= 1;
+          let amount = price - priceIn;
+          let sum = quantity * priceIn;
+      
+          td.find(".quantity").text(quantity);
+          totalpricetd.find(".totalPrice").text("" + sum);
+          if (quantity === 0) {
+            $(this).closest("tr").remove();
+          }
+          // Local Storage
+          let productId = td.attr("id");
+          localStorage.setItem(productId, quantity);
+      
+          // Update subtotal
+          let subtotal = calculateSubtotal();
+          $("#subtotal").text(subtotal);
+      
+          
+          $.ajax({
+            type: "POST",
+            url: update_url,
+            data: {
+              product_id: td.attr("id"),
+              quantity: quantity,
+              price: priceIn,
+              incrementFlag: false,
+              totalprice: subtotal,
+            },
+            success: function (data) {
+              if (typeof data !== "undefined") {
+                if (typeof data.status !== "undefined" && data.status == true) {
+                  successToast(data.message);
+                  location.reload();
+                } else {
+                  errorToast(data.message);
+                }
+              } else {
+                errorToast("Oops! Something went wrong. Please try again.");
+              }
+            },
+            error: function (data) {
+              errorToast("Oops! Something went wrong. Please try again.");
+            },
+          });
+        
+      });
+      
     function calculateSubtotal() {
         let subtotal = 0;
         $(".price").each(function () {
@@ -329,7 +339,7 @@ $(function () {
             url: order_url,
             data: {
                 data_value: data_value,
-                subtotal: data_subtotal
+                subtotal: data_subtotal,
             },
             success: function (data) {
                 if (typeof data !== "undefined") {
@@ -350,5 +360,4 @@ $(function () {
             },
         });
     });
-
 });

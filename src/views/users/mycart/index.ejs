@@ -38,7 +38,6 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <%console.log(data.cartItems.addToCart)%>
                     <% if (typeof data !== "undefined" && data.cartItems.addToCart.length > 0) { %>
                       <% let count = 1; %>
                       <% for (let item of data.cartItems.addToCart) { %>
@@ -51,8 +50,6 @@
                             <td class="text-center" id="<%- item.productId %>">
                               <button type="button" class="text-center decrement"> - </button> &nbsp; &nbsp;
                               <span class="quantity">
-                    <%console.log(item.quantity)%>
-
                                 <%- item.quantity %>
                               </span>
                               &nbsp; &nbsp;<button type="button" class="text-center increment"> + </button>
@@ -86,7 +83,7 @@
               <div class="row justify-content-end" >
                 <div class="col-auto bg-light" style="border: 1px solid #f6f6f7; ">
                   <div class="d-flex justify-content-between" >
-                    <span class="mr-3 font-size-16">SUBTOTAL :</span>
+                    <span class="mr-3 font-size-16">Amount :</span>
                     <span id="subtotal" class="font-size-16">0</span>
                   </div>
                 </div>  
