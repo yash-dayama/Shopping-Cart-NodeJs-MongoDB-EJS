@@ -125,7 +125,6 @@ const UserService = class {
         });
     };
 
-    //   static saveAuthToken = (userId, token, fcmToken = "") => {
     static saveAuthToken = (userId, token = "") => {
         return new ProjectionBuilder(async function () {
             let updateQry = {
@@ -149,24 +148,19 @@ const UserService = class {
         let incrementFlag = req.body.incrementFlag === "true";
         let qry = incrementFlag ? 1 : -1;
 
- 
-
-       
-            if (parseInt(req.body.quantity) === 0) {
-               let result= await User.findOneAndUpdate(
-                    {_id: req.user._id},
-                    // { $pull: { addToCart: { productId: req.body.product_id } } }
-                    {
-                        $pull: {
-                            [TableFields.addToCart]: {
-                                [TableFields.productId]:  req.body.product_id,
-                            },
+        if (parseInt(req.body.quantity) === 0) {
+            let result = await User.findOneAndUpdate(
+                {_id: req.user._id},
+                {
+                    $pull: {
+                        [TableFields.addToCart]: {
+                            [TableFields.productId]: req.body.product_id,
                         },
-                    }
-                );
-                return result
-            }
-        else {
+                    },
+                }
+            );
+            return result;
+        } else {
             let result = await User.findOneAndUpdate(
                 {
                     _id: req.user._id,
@@ -178,7 +172,7 @@ const UserService = class {
                 }
             );
             return result;
-            }
+        }
     };
 
     static updateUserRecord = async (req) => {
@@ -205,22 +199,21 @@ const UserService = class {
         return result;
     };
 
-    static removeCartItems = (userId, productId) => {
-        return new ProjectionBuilder(async function () {
-            await User.findOneAndUpdate(
-                {
-                    [TableFields.ID]: userId,
-                },
+    static removeCartItems = async (req) => {
+        // return new ProjectionBuilder(async function () {
+            let cart = await User.findOneAndUpdate(
+                {_id: req.user._id},
                 {
                     $pull: {
                         [TableFields.addToCart]: {
-                            [TableFields.productId]: productId,
+                            [TableFields.productId]: req.body.product_id,
                         },
                     },
-                },
-                {select: this, new: true}
+                }
             );
-        });
+            console.log("cart from service", cart );
+            return cart;
+        // });
     };
 
     static existCartRecord = async (req) => {

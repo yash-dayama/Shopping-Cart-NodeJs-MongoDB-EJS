@@ -64,7 +64,7 @@
                           <td class="text-center">
                             
                               <div class="" x-placement="bottom-end">
-                                <a data-id="<%- item.productId %>" class="text-danger"><i class="fas fa-trash fa-lf mx-1"></i></a>
+                                <a data-id="<%- item.productId %>" class="text-danger delete"><i class="fas fa-trash fa-lf mx-1"></i></a>
                               </div>
                               
                           
@@ -104,7 +104,7 @@
 
 <div class="footer-script">
   <script type="text/javascript">
-    var delete_url = "<%-admin_url%>/products/delete";
+    var delete_url = "<%-user_url%>/mycart/delete";
   </script>
 
   <script type="text/javascript">

@@ -73,7 +73,8 @@ const exists = async function (req, res) {
 
 const destroy = async function (req, res) {
     try {
-      await UserService.removeCartItems(userId, productId);
+      let result = await UserService.removeCartItems(req);
+      console.log("remove cart from controller -> ", result);
       return res.json({
         status: true,
         message: "Product has been deleted successfully",
