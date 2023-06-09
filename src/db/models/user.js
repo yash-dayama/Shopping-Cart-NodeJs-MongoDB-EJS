@@ -108,9 +108,13 @@ var userSchema = mongoose.Schema(
                     type: String,
                     default: "",
                 },
+                [TableFields.totalPrice]: {
+                    type: String,
+                    default: "",
+                },
                 [TableFields.quantity]: {
                     type: Number,
-                    default: "1",
+                    default: 1,
                 },
                 [TableFields.category]: {
                     type: String,

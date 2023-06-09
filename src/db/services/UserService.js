@@ -60,6 +60,7 @@ const UserService = class {
             [TableFields.productName]: req.body.product_title,
             [TableFields.category]: req.body.product_category,
             [TableFields.productPrice]: req.body.product_amount,
+            [TableFields.totalPrice]: req.body.product_subTotal,
             [TableFields.createdAt]: Util.getDate(),
             [TableFields.updatedAt]: Util.getDate(),
             [TableFields.deletedAt]: Util.getDate(),
@@ -148,18 +149,36 @@ const UserService = class {
         let incrementFlag = req.body.incrementFlag === "true";
         let qry = incrementFlag ? 1 : -1;
 
-        let result = await User.findOneAndUpdate(
-            {
-                _id: req.user._id,
-                "addToCart.productId": req.body.product_id,
-            },
-            {
-                $inc: {"addToCart.$.quantity": qry},
-                $set: {[TableFields.updatedAt]: Util.getDate()},
-            }
-        );
+ 
 
-        return result;
+       
+            if (parseInt(req.body.quantity) === 0) {
+               let result= await User.findOneAndUpdate(
+                    {_id: req.user._id},
+                    // { $pull: { addToCart: { productId: req.body.product_id } } }
+                    {
+                        $pull: {
+                            [TableFields.addToCart]: {
+                                [TableFields.productId]:  req.body.product_id,
+                            },
+                        },
+                    }
+                );
+                return result
+            }
+        else {
+            let result = await User.findOneAndUpdate(
+                {
+                    _id: req.user._id,
+                    "addToCart.productId": req.body.product_id,
+                },
+                {
+                    $inc: {"addToCart.$.quantity": qry},
+                    $set: {[TableFields.updatedAt]: Util.getDate()},
+                }
+            );
+            return result;
+            }
     };
 
     static updateUserRecord = async (req) => {

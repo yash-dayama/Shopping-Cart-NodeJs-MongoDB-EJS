@@ -46,8 +46,8 @@ const store = async function (req, res) {
 };
 const update = async function (req, res) {
     try {
-        console.log("User Cart COntroller");
-      await UserService.updateUserQuantity(req);
+        // console.log("User Cart COntroller");
+      let data=await UserService.updateUserQuantity(req);
       req.flash("success", "Product has been updated successfully");
     } catch (error) {
       console.log(error);

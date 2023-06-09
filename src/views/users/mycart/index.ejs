@@ -83,7 +83,7 @@
               <div class="row justify-content-end" >
                 <div class="col-auto bg-light" style="border: 1px solid #f6f6f7; ">
                   <div class="d-flex justify-content-between" >
-                    <span class="mr-3 font-size-16">SUBTOTAL :</span>
+                    <span class="mr-3 font-size-16">Amount :</span>
                     <span id="subtotal" class="font-size-16">0</span>
                   </div>
                 </div>  
@@ -91,8 +91,7 @@
               <div class="row justify-content-start" >
                 <div class="col-auto" style="border: 1px solid #f6f6f7;">
                   <div class="d-flex justify-content-between">
-                    <button class="mr-3 font-size-16 out" value='<%- JSON.stringify(data.cartItems.addToCart) %>' data-toggle="modal" data-target="#exampleModal">CHECKOUT</button>
-                    
+                    <button class="mr-3 font-size-16 out" value='<%- JSON.stringify(data.cartItems.addToCart) %>'>CHECKOUT</button>
                   </div>
                 </div>                
             </div>
@@ -131,22 +130,4 @@
     src="<%-assets_url%>assets/js/pages/admin/addToCart.js"
     type="text/javascript"
   ></script>
-</div>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content  ">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Thank You For Shopping With Us</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary text-center" data-dismiss="modal" href="<%-user_url%>/dashboard">Close</button>
-      </div>
-    </div>
-  </div>
 </div>
