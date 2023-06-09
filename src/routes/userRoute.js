@@ -197,16 +197,11 @@ let router = function (app, passport) {
     UserAuthController.loggedIn,
     UserCartController.update
   );
-  /*app.get(
-    Uprefix + "/categories/edit/:id",
-    // AdminAuthController.loggedIn,
-    // AdminCategoryController.edit
-  );
   app.post(
     Uprefix + "/mycart/delete",
-    // UserAuthController.loggedIn,
-    // UserCartController.destroy
-  );*/
+    UserAuthController.loggedIn,
+    UserCartController.destroy
+  );
   app.get(Uprefix + "/addtocart", UserCartController.store)
   app.post(
     Uprefix + "/mycart/exists",

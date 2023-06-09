@@ -25,9 +25,6 @@ if (typeof exists_url === "undefined") {
 if (typeof order_url === "undefined") {
     var order_url = "";
 }
-if (typeof remove_url === "undefined") {
-    var remove_url = "";
-}
 
 var $declineModal = $("#declineModal"),
     $declineForm = $(".decline-form");
@@ -88,11 +85,12 @@ $(function () {
     $(document).on("click", ".delete", function () {
         var _this = $(this);
         var data_id = $(_this).data("id");
+        console.log("hi this is dataId", data_id);
         var sr = $(_this).parents("tr");
         swal({
             title: "Remove Product",
             text: "Are you sure you want to delete this Product?",
-            // icon: "warning",
+            icon: "warning",
             // reverseButtons: true,
             buttons: ["No", "Yes"],
         }).then((isConfirm) => {
@@ -100,12 +98,15 @@ $(function () {
                 $.ajax({
                     type: "POST",
                     url: delete_url,
-                    data: {id: data_id},
+                    data: {product_id: data_id},
                     success: function (data) {
                         if (typeof data !== "undefined") {
                             if (typeof data.status !== "undefined" && data.status == true) {
                                 //table.ajax.reload();
-                                table.row(sr).remove().draw();
+                                // table.row(sr).remove().draw();
+                                $(this).closest("tr").remove();
+                                location.reload();
+
                                 successToast(data.message);
                             } else {
                                 errorToast(data.message);
@@ -263,62 +264,60 @@ $(function () {
         let td = $(this).closest("td");
         let quantity = parseInt(td.find(".quantity").text());
         let data_id = $(this).attr("id");
-      
+
         let pricetd = td.next("td");
         let price = parseInt(pricetd.find(".totalPrice").text());
         let priceIn = parseInt(pricetd.find(".initialPrice").text());
-      
+
         let totalpricetd = pricetd.next("td");
-     
-      
-     
-          quantity -= 1;
-          let amount = price - priceIn;
-          let sum = quantity * priceIn;
-      
-          td.find(".quantity").text(quantity);
-          totalpricetd.find(".totalPrice").text("" + sum);
-          if (quantity === 0) {
+
+        quantity -= 1;
+        let amount = price - priceIn;
+        let sum = quantity * priceIn;
+
+        td.find(".quantity").text(quantity);
+        totalpricetd.find(".totalPrice").text("" + sum);
+
+        if (quantity === 0) {
             $(this).closest("tr").remove();
-          }
-          // Local Storage
-          let productId = td.attr("id");
-          localStorage.setItem(productId, quantity);
-      
-          // Update subtotal
-          let subtotal = calculateSubtotal();
-          $("#subtotal").text(subtotal);
-      
-          
-          $.ajax({
+        }
+
+        // Local Storage
+        let productId = td.attr("id");
+        localStorage.setItem(productId, quantity);
+
+        // Update subtotal
+        let subtotal = calculateSubtotal();
+        $("#subtotal").text(subtotal);
+
+        $.ajax({
             type: "POST",
             url: update_url,
             data: {
-              product_id: td.attr("id"),
-              quantity: quantity,
-              price: priceIn,
-              incrementFlag: false,
-              totalprice: subtotal,
+                product_id: td.attr("id"),
+                quantity: quantity,
+                price: priceIn,
+                incrementFlag: false,
+                totalprice: subtotal,
             },
             success: function (data) {
-              if (typeof data !== "undefined") {
-                if (typeof data.status !== "undefined" && data.status == true) {
-                  successToast(data.message);
-                  location.reload();
+                if (typeof data !== "undefined") {
+                    if (typeof data.status !== "undefined" && data.status == true) {
+                        successToast(data.message);
+                        location.reload();
+                    } else {
+                        errorToast(data.message);
+                    }
                 } else {
-                  errorToast(data.message);
+                    errorToast("Oops! Something went wrong. Please try again.");
                 }
-              } else {
-                errorToast("Oops! Something went wrong. Please try again.");
-              }
             },
             error: function (data) {
-              errorToast("Oops! Something went wrong. Please try again.");
+                errorToast("Oops! Something went wrong. Please try again.");
             },
-          });
-        
-      });
-      
+        });
+    });
+
     function calculateSubtotal() {
         let subtotal = 0;
         $(".price").each(function () {
